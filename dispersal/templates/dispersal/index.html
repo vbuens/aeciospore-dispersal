@@ -1,0 +1,42 @@
+{% extends "dispersal/base.html" %}
+{% load static %}
+
+{% block content %}
+
+<!-- <h1> Welcome to the index page </h1> -->
+<h1> Stem rust disease </h1>
+<div class="form-row" style="padding:20px 20px 20px 0px; "">
+    <div class="form-group col-md-6 mb-0" style="padding:0px 20px 20px 0px; text-align: justify;">
+        <p>Each year, asexual urediniospores of wheat stem rust can enter temporal zones anew via wind transmission,
+            traveling up to hundreds of kilometres from their origin in regions with milder continental climates.
+            However, stem rust also has the ability to survive between crop seasons in temporal zones through the production
+            of hardy overwintering teliospores that can form on rust-infected plant debris.
+            These teliospores germinate in the spring, producing basidiospores that can infect the pathogen’s alternate host,
+            common barberry (Berberis vulgaris) and other Berberis species.
+            Once on the alternate host, the pathogen may complete sexual reproduction, leading to the emergence of novel
+            genotypes and races.
+        </p>
+        <p> Eradication of common barberry (B. vulgaris) in the UK drove stem rust to almost complete extinction.
+            However, over the past decade, barberry planting has reinitiated and stem rust has re-emerged in western Europe.
+            To assess and mitigate the risk of sexual variants emanating from barberry infecting cereal crops we studied how
+            far spores could travel from the barberry bush. We used mathematical modelling to assess the risk of planting
+            barberries near whea fields by using a dispersal model (to know more about the model, please <a href="/dispersal/about">go here</a>)
+
+            This data will then feed into models assessing the risk to cereal crops
+             under different environmental scenarios. This will contribute to broad assessments of the probability of positive
+              and negative outcomes of factors generating rust epidemics, including barberry planting, on a large scale throughout
+              the UK
+            Therefore, there is a deep sense of urgency to establish the role of common barberry
+            in harboring and enhancing the diversity of wheat rusts in the UK.
+        </p>
+    </div>
+    <div class="form-group col-md-6 mb-0" style="padding:20px 0px 20px 0px;">
+        <img src="{% static 'images/barberry.png' %}" alt="Infected Barberry" class="img-barberry">
+    </div>
+</div>
+
+
+<h4> Please, go to the following page to run the model </h4>
+<a href="{% url 'run' %}">Go to model</a>
+
+{% endblock %}

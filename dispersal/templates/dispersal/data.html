@@ -1,0 +1,10 @@
+{% extends "dispersal/base.html" %}
+{% load static %}
+
+{% block content %}
+<h1> Data analysis </h1>
+
+<form action="/dispersal/run" method=post">
+<button type="submit" class="btn btn-primary" value="OK">Run model</button>
+</form>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends "dispersal/base.html" %}
+{% load static %}
+
+{% block content %}
+<h1> These are the results for Q= {{ source }} spores/m per second at {{ city }}, {{ country }}. </h1>
+<p><strong><u>Input values used:</u></strong></p>
+<ul>
+    <li><b>Country:</b> {{ country }}</li>
+    <li><b>City:</b> {{ city }}</li>
+    <li><b>Wind:</b> {{ wind }} (m/s)</li>
+    <li><b>Percentage of leaf intected:</b> {{ leafperc }}%</li>
+    <li><b>Percentage of bush infected:</b> {{ bushperc }}%</li>
+</ul>
+<p>Scale represents number of spores at each point down the source</p>
+<p><strong><u>Results:</u></strong></p>
+<ul>
+    <li><b>95%</b> of spores would land before <b>{{ X95d }} meters</b> at day time and <b>{{ X95n }} meter</b> at night time</li>
+    <li><b>75%</b> of spores would land before <b>{{ X75d }} meters</b> at day time and <b>{{ X75n }} meter</b> at night time</li>
+    <li><b>50%</b> of spores would land before <b>{{ X50d }} meters</b> at day time and <b>{{ X50n }} meter</b> at night time</li>
+</ul>
+<!-- <img src="{% static 'images/results.png' %}" alt="Results"> -->
+
+<div class="form-row">
+    <div class="form-group col-md-6 mb-0">
+        <img src="{% static 'images/results2D_Day.png' %}" alt="Results">
+    </div>
+    <div class="form-group col-md-6 mb-0">
+        <img src="{% static 'images/results2D_Night.png' %}" alt="Results">
+    </div>
+</div>
+
+<form action="/dispersal/run" method=post">
+<button type="submit" class="btn btn-primary" value="OK">Run again</button>
+</form>
+{% endblock %}

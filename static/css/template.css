@@ -1,0 +1,155 @@
+body {
+    padding-left: 15px;
+}
+.page-header {
+    overflow: hidden;
+    background-color: #C25100;
+    margin-top: 0;
+    padding: 20px 20px 20px 40px;
+}
+.page-header h1 {
+    float: left;
+    color: #ffffff;
+    font-size: 50px;
+    font-family: 'Lobster', cursive;
+    text-decoration: none;
+}
+.header-right{
+    float: right;
+    font-size: 25px;
+    border-radius: 4px;
+    padding: 20px 20px 20px 40px;
+
+}
+.header-right a{
+    color: #ffffff;
+    /* border-radius: 4px; */
+    line-height: 40px;
+    text-decoration: none;
+}
+/* .header-right a.active {
+    background-color: white;
+    color: #C25100; */
+}
+.header-right a:hover {
+  background-color: #ffffff;
+  color: #C25100;
+}
+.content {
+    margin-left: 40px;
+}
+h3, h4 {
+    font-family: 'Arial';
+}
+
+.footer{
+    position: relative;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: white;
+    color: white;
+    text-align: center;
+    height: 100px;
+    /* margin-top: -20px; */
+}
+/* #weather{
+  display: none;
+} */
+
+
+/* The switch - the box around the slider */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.slider-round {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+  border-radius: 34px;
+}
+
+.slider-round:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+  border-radius: 50%;
+}
+
+input:checked + .slider-round {
+  background-color: #2196F3;
+}
+
+input:focus + .slider-round {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider-round:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Slider  for % Infection */
+
+.slider{
+    -webkit-appearence: none;
+    width: 60%;
+    height: 15px;
+    border-radius: 5px;
+    background: #d3d3d3;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+}
+
+.img-leaf{
+    width: 20%;
+}
+
+.img-bush{
+    width: 25%;
+}
