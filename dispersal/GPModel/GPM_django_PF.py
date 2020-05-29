@@ -148,17 +148,10 @@ def calculateCs(stability_class,x,y,z,H,Q0,u,I,R):
     Fs=math.exp(-((I)*x)/5555*u) #5555*u) #18.01
     Yw=0.000272*(R**0.7873)
     Yd1=math.sqrt(2/math.pi)*(Vs/x)
-    Y2a= (0.88/(0.1166*math.log(10*z0)*(a*(b+0.88))-b))
-    Y2b= (x**(b+0.88))*kz0
-    # Yd2a=math.sqrt(math.pi)*math.exp((((Jz-1)**2)/4*Kz)-Iz)
-    # Yd2b=Yd2a*(1+math.erf(((2*Kz*math.log(x))+Jz-1)/(2*pow(Kz,0.5)).real))
-    # Yd2=Yd2b/(2*pow(Kz,0.5).real)
-    Yd2=Y2a*(-Y2b)
-    Yd=Yd1*Yd2
-    # print(x,Yd1,Yd2,Yd)
-    # Ib= quad(integrpotato,0,x,args=(stability_class))
-    # Ib= quad(integrpotato,0,x,epsabs=0,args=(stability_class))
-    # Yd=Yd1*Ib[0]
+    Y2a=((10*z0)**(0.53*(x**(-0.22))))*(x**(0.22-b+1))
+    Y2b=math.log(10*z0)*(0.53*0.22)
+    Yd2=Y2a*Y2b/a
+
     Fd=math.exp((-(Yw+Yd)*x)/u)
     Q=Q0*Fd*Fs
     # print(x,Fs,Q)
