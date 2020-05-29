@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .forms import InputForm, PredictForm
 # from .GPModel.GPM_django import runmodel
@@ -53,14 +53,13 @@ def predictions(request):
 
     # return render(request,'dispersal/prediction.html', {'form': form,'context':context})
 
+
 def results(request):
     if request.method == 'POST':
-        return render(request, 'dispersal/run.html')
-    else:
-        form = InputForm(request.GET)
+        form = InputForm(request.POST)
+        # print(form)
+        print(form.errors)
         if form.is_valid():
-            # form.save()
-            # Q=form.cleaned_data['source'] #source strength
             graph='2D'
             lat = form.cleaned_data['lat']
             NS = form.cleaned_data['NS']
@@ -68,7 +67,7 @@ def results(request):
             WE = form.cleaned_data['WE']
             lat=float(NS+lat)
             lon=float(WE+lon)
-
+            #
             # if request.GET.get('weathercheck') == "on":
             #     UV = form.cleaned_data['UV']
             #     wind = form.cleaned_data['wind']
@@ -81,7 +80,10 @@ def results(request):
 
             H = float(form.cleaned_data['height'])
             bushperc = int(form.cleaned_data['bushperc'])/100
-            leafperc = int(form.cleaned_data['leafperc'])/100
+
+            print(form.cleaned_data['leafperc'])
+            print('---------')
+            leafperc = float(form.cleaned_data['leafperc'])/100
             # Calculating the source strength based on percentage of infection
             # Q = round(34661.61598*bushperc*leafperc,2)
             # Q = round(224607.272*bushperc*leafperc,2)
@@ -98,7 +100,13 @@ def results(request):
                     'X75n': maxdistances['Night'][1],'X50n': maxdistances['Night'][2]}
             return render(request, 'dispersal/results.html', context)
         else:
-            return render(request,'dispersal/run.html', {'form': form})
+            print('form no valid')
+            form = InputForm()
+            return redirect('/dispersal/run/')
+            # return render(request,'dispersal/run.html', {'form': form})
+    # else:
+        # return redirect('/dispersal/run/')
+        # return render(request, 'dispersal/run.html')
 
 
 
