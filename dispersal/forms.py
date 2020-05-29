@@ -11,7 +11,7 @@ class InputForm(forms.Form):
     # infection = forms.IntegerField(label="% infection") # without name or label
     # leafperc = forms.CharField(label='leaf-percentage', initial=1, max_length=100,required=True)
     choicesleaf=[(0.54,"Low"),(1.82,"Medium"),(5.26,"High",),(17.9,"VeryHigh")]
-    leafperc = forms.ChoiceField(label='leaf-percentage', choices=choicesleaf, required=False)
+    leafperc = forms.ChoiceField(label='leaf-percentage', choices=choicesleaf, required=True)
     # leafperc = forms.CharField(label='leaf-percentage', initial=1, max_length=100,required=True)
 
     bushperc = forms.CharField(label='bush-percentage', initial=1, max_length=100,required=True)
