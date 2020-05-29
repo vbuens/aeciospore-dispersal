@@ -10,16 +10,16 @@ class InputForm(forms.Form):
     # bush = RangeSliderField(name="%bush",minimum=1,maximum=100) # without name or label
     # infection = forms.IntegerField(label="% infection") # without name or label
     # leafperc = forms.CharField(label='leaf-percentage', initial=1, max_length=100,required=True)
-    choices=[(0.54,"Low"),(1.82,"Medium"),(5.26,"High",),(17.9,"VeryHigh")]
-    leafperc = forms.ChoiceField(label='leaf-percentage', choices=choices,required=True)
+    choicesleaf=[(0.54,"Low"),(1.82,"Medium"),(5.26,"High",),(17.9,"VeryHigh")]
+    leafperc = forms.ChoiceField(label='leaf-percentage', choices=choicesleaf, required=False)
     # leafperc = forms.CharField(label='leaf-percentage', initial=1, max_length=100,required=True)
 
     bushperc = forms.CharField(label='bush-percentage', initial=1, max_length=100,required=True)
 
     height = forms.DecimalField(label='Height of source (default = 1m)',initial=1, min_value=0, max_value=5)
 
-    country = CountryField(blank_label='(select country)').formfield(required=False)
-    city = forms.CharField(max_length=200, label='City',required=False)
+    # country = CountryField(blank_label='(select country)').formfield(required=False)
+    # city = forms.CharField(max_length=200, label='City',required=False)
     # location = forms.BooleanField(required=False, widget=CheckboxInput())
     # cloudiness2 = RangeSliderField(name="%Cloud Cover",minimum=1,maximum=100) # without name or label
     cloudiness = forms.CharField(label='bush-percentage', initial=1, max_length=100, required=False)
@@ -39,6 +39,9 @@ class InputForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super(InputForm, self).__init__(*args, **kwargs)
         # self.fields['']
+
+    # def cleaned_data(self):
+    #     return
 
 
 class PredictForm(forms.Form):
