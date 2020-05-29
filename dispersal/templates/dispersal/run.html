@@ -96,9 +96,6 @@
             <select multiple class="form-control" id="myRange-leaf" onchange="val()">
             {% for val, name in form.fields.leafperc.choices %}
                 <option value="{{val}}">{{name}}</option>
-                <!-- <input type="checkbox" name="{{name}}" id="{{name}}" value="{{val}}" style="background-image: url({% static 'images/LeafLow.png' %});"/> -->
-                <!-- <input type="radio" name="{{name}}" id="{{name}}" value="{{val}}"/> -->
-                <!-- <img src="{% static 'images/Leaf{{name}}.png' %}" alt="" />{{name}}, Leaf{{name}}.png -->
             {% endfor %}
             </select>
         </div>
