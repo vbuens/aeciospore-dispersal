@@ -151,13 +151,12 @@ def calculateCs(stability_class,x,y,z,H,Q0,u,I,R):
     Y2a=((10*z0)**(0.53*(x**(-0.22))))*(x**(0.22-b+1))
     Y2b=math.log(10*z0)*(0.53*0.22)
     Yd2=Y2a*Y2b/a
+    Yd=Yd1*Yd2
 
     Fd=math.exp((-(Yw+Yd)*x)/u)
     Q=Q0*Fd*Fs
-    # print(x,Fs,Q)
     if Q>Q0:
         print(Q,Yd1,Yd2,Fd,Fs)
-    # print(Fd,Q0,Q)
 
     C=(Q/u)*(math.exp((-y**2)/(2*sig2y))/(2*math.pi*sigz*sigy))*secondpart
     return C
