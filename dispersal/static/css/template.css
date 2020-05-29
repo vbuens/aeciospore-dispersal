@@ -8,7 +8,7 @@ body {
     padding: 20px 20px 20px 40px;
 }
 #content{
-    padding: 10px 20px 20px 40px;    
+    padding: 10px 20px 20px 40px;
 }
 .page-header h1 {
     float: left;
@@ -156,4 +156,97 @@ input:checked + .slider-round:before {
 
 .img-barberry{
     width: 50%;
+}
+
+td.red{
+    background-color: red;
+}
+td.orange{
+    background-color: orange;
+}
+td.green{
+    background-color: green;
+}
+
+
+input[type=checkbox] {
+display:none;
+}
+
+input#thing1[type=checkbox] + label
+{
+/* background-image: url('../images/LeafLow.png'); */
+border-color: black;
+border-style: solid;
+height: 50px;
+width: 50px;
+display:inline-block;
+padding: 0 0 0 0px;
+}
+input#thing2[type=checkbox] + label
+{
+background-image: url('{% static "images/LeafLow.png" %}');
+background-repeat: no-repeat; background-attachment: fixed;
+border-color: white;
+border-style: solid;
+height: 50px;
+width: 50px;
+display:inline-block;
+padding: 0 0 0 0px;
+}
+input#thing3[type=checkbox] + label
+{
+background-image: url("http://lorempixel.com/50/50/sports/");
+border-color: white;
+border-style: solid;
+height: 50px;
+width: 50px;
+display:inline-block;
+padding: 0 0 0 0px;
+}
+input#thing4[type=checkbox] + label
+{
+background-image: url("images/LeafHigh.png");
+border-color: white;
+border-style: solid;
+height: 50px;
+width: 50px;
+display:inline-block;
+padding: 0 0 0 0px;
+}
+input#thing1[type=checkbox]:checked + label
+{
+border-color: red;
+border-style: solid;
+height: 50px;
+width: 50px;
+display:inline-block;
+padding: 0 0 0 0px;
+}
+input#thing2[type=checkbox]:checked + label
+{
+border-color: red;
+border-style: solid;
+height: 50px;
+width: 50px;
+display:inline-block;
+padding: 0 0 0 0px;
+}
+input#thing3[type=checkbox]:checked + label
+{
+border-color: red;
+border-style: solid;
+height: 50px;
+width: 50px;
+display:inline-block;
+padding: 0 0 0 0px;
+}
+input#thing4[type=checkbox]:checked + label
+{
+border-color: red;
+border-style: solid;
+height: 50px;
+width: 50px;
+display:inline-block;
+padding: 0 0 0 0px;
 }

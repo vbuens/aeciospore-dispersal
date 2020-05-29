@@ -1,0 +1,40 @@
+{% extends "dispersal/base.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block content %}
+
+    <!-- <link rel="stylesheet" href="css/rSlider.min.css"> -->
+
+    <div>
+    	<h2> Prediction of aeciospore release at {{city}}, {{country}}</h2>
+    	<h4> Predictions are based on Precipitation and Relative Humidity </h4>
+    </div>
+	{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+<table class="table"> {{ form.as_table}}
+<tr>
+		<th> Date</th>
+		<th> Relative Humidity </th>
+		<th> Precipitation </th>
+		<th> Risk </th>
+</tr>
+	{% for day,values in context.items %}
+	<tr>
+		<td> {{day}} </td>
+		{% for value in values %}
+			<td class="{% if value == 'High'%}red{%endif%}
+						{% if value == 'Medium'%}orange{%endif%}
+						{% if value == 'Low'%}green{%endif%}"
+
+			>{{value}}</td>
+		{% endfor %}
+</tr>
+	{% endfor %}
+
+</table>
+<div class="form-row">
+</div>
+<div class="form-row">
+</div>
+ {% endblock %}

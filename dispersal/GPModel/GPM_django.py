@@ -120,7 +120,7 @@ def stabilityclass(u,time,cloud,altitude):
 def runmodel(country,city,graph,H,Q, u,stabilityclasses):
     print(u)
     # Set up space parameters and empty arrays
-    xmax=50
+    xmax=30
     Xlist= np.arange(0.1,xmax,0.1)
     Zlist=np.arange(0,H*6,0.1)
     # y=0.5
@@ -163,8 +163,8 @@ def runmodel(country,city,graph,H,Q, u,stabilityclasses):
 
         # print('''Location:%s,%s\nWind Speed: %.2f\nCloudiness: %.2f\nTime: %s\nSun Altitude: %.2f\nStability Class: %s\nQ: %.2f\nSource height: %.1f\n\n''' % (city,country,u,cloud,time,altitude,stability_class,Q,H))
         if graph=='2D':
-            # plt.clf()
-            # graph_2D(allXs,allZs,allCs,stability_class,u,time)
+            plt.clf()
+            #graph_2D(allXs,allZs,allCs,stability_class,u,time)
             plt.scatter(allXs,allZs,c=allCs,cmap='nipy_spectral_r') #gist_rainbow') #'gist_ncar') #gist_stern')#'tab20b') YlOrBr')#nipy_spectral_r')#
             plt.colorbar()
             # plt.colorbar(p)

@@ -15,7 +15,7 @@ from atmospheric_functions import stabilityclass
 parser = argparse.ArgumentParser()
 parser.add_argument('-Q','--sourcestrength', default=948372.0863 , type=float,nargs='?', help = 'Source Strength: spores/(s m)')
 parser.add_argument('-y','--y',type=float,default=0,help = 'Distance in the cross-wind direction to the source: y (m)')
-parser.add_argument('-xmax','--xmax',type=float,default=50,help = 'Maximum horizontal distance from the source: x (m)')
+parser.add_argument('-xmax','--xmax',type=float,default=5,help = 'Maximum horizontal distance from the source: x (m)')
 parser.add_argument('-H','--height',type=float,default=1,help = 'Height of the source: H (m)')
 # parser.add_argument('-vd','--depositionvelocity',type=float,default=1.27,help = 'Deposition velocity of spores: Vd (m)')
 # parser.add_argument('-zmax','--zmax',type=float,default=6,help = 'Maximum height from the source: z (m)')

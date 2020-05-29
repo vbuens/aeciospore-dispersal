@@ -13,9 +13,9 @@
             }
         }
     </script>
-    <!-- <link rel="stylesheet" href="css/rSlider.min.css"> -->
-    <!-- <script src="js/rSlider.min.js"></script> -->
-    <!-- <script>
+    <link rel="stylesheet" href="css/rSlider.min.css">
+    <script src="js/rSlider.min.js"></script>
+    <script>
         var mySlider = new rSlider({
             target: '#slider',
             values:[1,10,20,30,40,50,60,70,80,90,100],
@@ -27,7 +27,7 @@
             tooltip:    true,
             step:    null,
         })
-    </script> -->
+    </script>
 
 
     <div>
@@ -36,7 +36,7 @@
     </div>
 	{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
-    <form action="results" method="post" role="form">
+    <form action="results" method=post">
 	{% csrf_token %}
     <!-- <div class="form-group">
         <table>
@@ -53,59 +53,54 @@
     <p>If you would prefer to include your own weather data, go to the <a href=#inputweather > section below</a></p>
             <!-- <button onclick="myFunction()">Here</button> -->
 
-    <div class="form-row form-group">
-        <div class="form-group col-md-2 mb-0">
-            {{ form.lat | as_crispy_field }}
+    <div class="form-row">
+        <div class="form-group col-md-6 mb-0">
+            {{ form.country | as_crispy_field }}
         </div>
-        <div class="form-group col-md-3 mb-0">
-            {{ form.NS | as_crispy_field }}
-        </div>
-    <!-- </div>
-    <div class="form-row"> -->
-        <div class="form-group col-md-2 mb-0">
-            {{ form.lon | as_crispy_field }}
-        </div>
-        <div class="form-group col-md-3 mb-0">
-            {{ form.WE | as_crispy_field }}
+        <div class="form-group col-md-6 mb-0">
+            {{ form.city | as_crispy_field }}
         </div>
     </div>
 
     <h3>* Input the infection level of the source</h3>
     <div class="form-row">
-        <strong>Percentage of Leaf Infected</strong>
-    </div>
-    <div class="form-row">
-        <div class="col-md-3 mb-0">
+        <div class="slidecontainer col-md-3 mb-0">
+            <strong>Percentage of Leaf Infected</strong>
+            <!-- <input type="range" min="1" max="100" value="1" class="slider"
+            id="myRange-leaf" name="leafperc"> -->
+            <input type="range" min="1" max="100" value="1" class="slider"
+            id="myRange-leaf" name="leafperc">
+            <p>Value: <span id="demo-leaf"></span>%</p>
+        </div>
+        <div class="form-group col-md-3 mb-0">
+            <img src="{% static 'images/leaf1.png' %}" alt="leaf" id="img-leaf" class="img-leaf">
             <script>
-                function val(){
-                    leafpercentage = document.getElementById("myRange-leaf").value;
+                var slider = document.getElementById("myRange-leaf");
+                var output = document.getElementById("demo-leaf");
+                output.innerHTML = slider.value;
+
+                slider.oninput = function() {
+                    output.innerHTML = this.value;
                     var img = document.getElementById("img-leaf");
-                    // alert(d);
-                    if (leafpercentage == "0.54") {
-                        img.setAttribute("src","{% static 'images/LeafLow.png' %}") ;
-                    } else if(leafpercentage == "1.82") {
-                        img.setAttribute("src","{% static 'images/LeafMedium.png' %}") ;
-                    } else if(leafpercentage == "5.26") {
-                        img.setAttribute("src","{% static 'images/LeafHigh.png' %}") ;
+                    if (this.value < 10) {
+                        img.setAttribute("src","{% static 'images/leaf1.png' %}") ;
+                    } else if(this.value < 25) {
+                        img.setAttribute("src","{% static 'images/leaf10.png' %}") ;
+                    } else if(this.value < 50) {
+                        img.setAttribute("src","{% static 'images/leaf25.png' %}") ;
+                    } else if(this.value < 75) {
+                        img.setAttribute("src","{% static 'images/leaf50.png' %}") ;
+                    } else if(this.value < 90) {
+                        img.setAttribute("src","{% static 'images/leaf75.png' %}") ;
                     } else {
-                        img.setAttribute("src","{% static 'images/LeafVeryhigh.png' %}") ;
+                        img.setAttribute("src","{% static 'images/leaf100.png' %}") ;
                     }
                 }
             </script>
-
-            <select multiple class="form-control" id="myRange-leaf" onchange="val()">
-            {% for val, name in form.fields.leafperc.choices %}
-                <option value="{{val}}">{{name}}</option>
-                <!-- <input type="checkbox" name="{{name}}" id="{{name}}" value="{{val}}" style="background-image: url({% static 'images/LeafLow.png' %});"/> -->
-                <!-- <input type="radio" name="{{name}}" id="{{name}}" value="{{val}}"/> -->
-                <!-- <img src="{% static 'images/Leaf{{name}}.png' %}" alt="" />{{name}}, Leaf{{name}}.png -->
-            {% endfor %}
-            </select>
         </div>
-        <div class="form-group col-md-3 mb-0">
-            <img src="{% static 'images/LeafLow.png' %}" alt="leaf" id="img-leaf" class="img-leaf">
-        </div>
+    <!-- </div> -->
 
+    <!-- <div class="form-row"> -->
         <div class="slidecontainer col-md-3 mb-0">
             <strong>Percentage of Bush Infected</strong>
             <input type="range" min="1" max="100" value="1" class="slider-bush"
