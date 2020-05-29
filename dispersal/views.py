@@ -1,12 +1,8 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .forms import InputForm, PredictForm
-# from .GPModel.GPM_django import runmodel
-from .GPModel.GPM_django_PF import runmodel, stabilityclass_latlon
-# from django_countries import countries
-# from .GPModel.atmospheric_functions import stabilityclass_input, stabilityclass_API
+from .GPModel.GPM_django_PF import runmodel, stabilityclass_latlon, stabilityclass_input
 from .GPModel.releaseprediction import RH_APIcall
-# Create your views here.
 
 def index(request):
     return render(request, 'dispersal/index.html') #"Hello, world. You're at the model index. Go to run model")
@@ -67,27 +63,28 @@ def results(request):
             WE = form.cleaned_data['WE']
             lat=float(NS+lat)
             lon=float(WE+lon)
-            #
-            # if request.GET.get('weathercheck') == "on":
-            #     UV = form.cleaned_data['UV']
-            #     wind = form.cleaned_data['wind']
-            #     cloudiness =  int(form.cleaned_data['cloudperc'])/100
-            #     #cloudiness =  int(request.GET.get('cloudperc'))/100
-            #     stabilityclasses=stabilityclass_input(wind,cloudiness,UV)
-            #
-            # else:
-            stabilityclasses,wind,RH,I,R,clouds,UV,city, country =stabilityclass_latlon(lat,lon)
+
+            if request.GET.get('weathercheck') == "on":
+                UV = form.cleaned_data['UV']
+                wind = form.cleaned_data['wind']
+                cloudiness =  int(form.cleaned_data['cloudperc'])/100
+                #cloudiness =  int(request.GET.get('cloudperc'))/100
+                stabilityclasses=stabilityclass_input(wind,cloudiness,UV)
+
+            else:
+                stabilityclasses,wind,RH,I,R,clouds,UV,city, country =stabilityclass_latlon(lat,lon)
 
             H = float(form.cleaned_data['height'])
             bushperc = int(form.cleaned_data['bushperc'])/100
-
-            print(form.cleaned_data['leafperc'])
-            print('---------')
             leafperc = float(form.cleaned_data['leafperc'])/100
             # Calculating the source strength based on percentage of infection
-            # Q = round(34661.61598*bushperc*leafperc,2)
-            # Q = round(224607.272*bushperc*leafperc,2)
-            Q = round(623909.0877*0.6*bushperc*leafperc,2)
+            # 8 cups/mm * leaf area * %infection in leaf * spores/cup
+            sporesinleaf = 8* 9.93 * leafperc * 7111
+            # Number of leaves in bush * % bush infected
+            leafinbush= 900* bushperc
+            # spores in lef * leaves in bush * % germination
+            Q= round(sporesinleaf*leafinbush*0.6*0.5,2)
+            # Q = round(623909.0877*0.6*bushperc*leafperc,2)
 
             maxdistances=runmodel(graph,H,Q, float(wind),I,R,clouds,stabilityclasses)
             context={'source':Q,'country':country,'city':city,

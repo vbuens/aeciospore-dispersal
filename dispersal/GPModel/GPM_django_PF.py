@@ -39,8 +39,21 @@ def stabilityclass_night(u,cloud):
         if u<=3: return 'E'
         if u>3: return 'D'
 
-
-
+def stabilityclass_inputday(u,cloud,UV):
+    if cloud>0.5:  return 'D'
+    if UV == "Low":
+        if u<2: return 'B'
+        if 2<=u<=5: return 'C'
+        if 5<u: return 'D'
+    elif UV == "Medium":
+        if u<2: return 'A'
+        if 2<=u<5:  return 'B'
+        if 5<=u<=6: return 'C'
+        if 6<u: return 'D'
+    elif UV == "High":
+        if u<3: return 'A'
+        if 3<=u<=5: return 'B'
+        if 5<u: return 'C'
 
 def stabilityclass_latlon(lat,lon):
     ''' Calls an API to get weather data from location
@@ -67,21 +80,12 @@ def stabilityclass_latlon(lat,lon):
 
     return (stabilityclasses,u,RH,Irradiance,rain,clouds,UV,city, country)
 
-
-    # altitude = json_response['sun_altitude']
-    # urlw = 'https://api.openweathermap.org/data/2.5/weather?q=%s&appid=3ba98f5e6c66ecde2678c62d5786143b' % city
-    # res2 =requests.get(urlw)
-    # json_response = res2.json()
-    # cloud = float(json_response['clouds']['all'])*0.01
-    # u = float(json_response['wind']['speed'])
-    # u = float(u) ; cloud=float(cloud) ; altitude=float(altitude)
-    #
-    # return (stabilityclasses,u)
-
-
-if os.path.exists('results') == False:
-    os.mkdir('results')
-
+def stabilityclass_input(u,cloud,UV):
+    u=float(u) ; cloud=float(cloud)
+    stabilityclasses={}
+    stabilityclasses['Day']= stabilityclass_inputday(u,cloud,UV)
+    stabilityclasses['Night']= stabilityclass_night(u,cloud)
+    return stabilityclasses
 
 
 ## Functions for printing the graph
@@ -143,7 +147,7 @@ def calculateCs(stability_class,x,y,z,H,Q0,u,I,R):
     sigz=kz0*a*(x**b)
     sig2y=sigy**2
     sig2z=sigz**2
-    secondpart=math.exp(-(((H-z)**2)/(2*sig2z)))+math.exp(-(((H+z-2*d)**2)/(2*sig2z)))
+    secondpart=math.exp(-(((H-z)**2)/(2*sig2z))) #+math.exp(-(((H+z-2*d)**2)/(2*sig2z)))
 
     Fs=math.exp(-((I)*x)/5555*u) #5555*u) #18.01
     Yw=0.000272*(R**0.7873)
@@ -200,7 +204,7 @@ def runmodel(graph,H,Q,u,I,R,clouds,stabilityclasses):
         for i,x in enumerate(allXs):
             # print(round(allYs[i],2))
             if str(round(allYs[i],2))=="-0.0":
-                if allCs[i]<1 and x>1:
+                if allCs[i]<1 and x>5:
                     Xmax=round(x,2)
                     break
         # minC= min(c for c in valuesaty0 if c>1)
@@ -211,77 +215,3 @@ def runmodel(graph,H,Q,u,I,R,clouds,stabilityclasses):
         # Xmin = round(allXs[[n for n,i in enumerate(Ccum) if i== minC][0]],1)
         maxdistances[time]=[X95,X75,X50,X99,Xmax]
     return maxdistances #X95,X75,X50
-
-
-def runmodel_old(country,city,graph,H,Q, u,stabilityclasses):    # Set up space parameters and empty arrays
-    xmax=30
-    Xlist= np.arange(0.1,xmax,0.1)
-    Zlist=np.arange(0,H*6,0.1)
-    # y=0.5
-    y=0.01
-    allCs=[]
-    allXs=[]
-    allZs=[]
-    # allRs=[]
-    maxdistances={}
-    times=['Day','Night']
-    for time in times:
-        allCs=[]
-        allXs=[]
-        allZs=[]
-        allRs=[]
-        for x in Xlist:
-            for z in Zlist:
-                stability_class= stabilityclasses[time]
-                stabilities={   #sigy                   sigz
-                    'A': [0.22*x*((1+0.0001*x)**(-0.5)),0.2*x],
-                    'B': [0.16*x*((1+0.0001*x)**(-0.5)),0.12*x],
-                    'C': [0.11*x*((1+0.0001*x)**(-0.5)),0.08*x*((1+0.002*x)**(-0.5))],
-                    'D': [0.08*x*((1+0.0001*x)**(-0.5)),0.06*x*((1+0.0015*x)**(-0.5))],
-                    'E': [0.06*x*((1+0.0001*x)**(-0.5)),0.03*x*((1+0.0003*x)**(-1))],
-                    'F': [0.04*x*((1+0.0001*x)**(-0.5)),0.016*x*((1+0.0003*x)**(-1))],
-                  }
-                sigy=stabilities[stability_class][0]
-                sigz=stabilities[stability_class][1]
-                sig2y=sigy**2
-                sig2z=sigz**2
-
-                secondpart=math.exp(-(((H-z)**2)/(2*sig2z)))+math.exp(-(((H+z)**2)/(2*sig2z)))
-                C=(Q/u)*(math.exp((-y**2)/(2*sig2y))/(2*math.pi*sigz*sigy))*secondpart
-
-        #            R=C*Vd
-        #            allRs.append(R)
-                allCs.append(C)
-                allZs.append(z)
-                allXs.append(x)
-
-        # print('''Location:%s,%s\nWind Speed: %.2f\nCloudiness: %.2f\nTime: %s\nSun Altitude: %.2f\nStability Class: %s\nQ: %.2f\nSource height: %.1f\n\n''' % (city,country,u,cloud,time,altitude,stability_class,Q,H))
-        if graph=='2D':
-            plt.clf()
-            #graph_2D(allXs,allZs,allCs,stability_class,u,time)
-            plt.scatter(allXs,allZs,c=allCs,cmap='nipy_spectral_r') #gist_rainbow') #'gist_ncar') #gist_stern')#'tab20b') YlOrBr')#nipy_spectral_r')#
-            plt.colorbar()
-            # plt.colorbar(p)
-            plt.xlabel('Distance (m)')
-            plt.ylabel('Height (m)')
-            plt.title('Stability class %s. Wind speed: %s m/s. %s time.' % (stability_class,u, time))
-
-            plt.savefig(f'dispersal/static/images/results2D_{time}.png')
-            plt.clf()
-
-        elif graph == '3D':
-            graph_3D(allXs,allYs,allZs,allCs, stability_class,u,time)
-
-        Ccum = np.cumsum(allCs)
-        max95=max(Ccum)*0.95
-        max75=max(Ccum)*0.75
-        max50=max(Ccum)*0.50
-        X95 = round(allXs[[n for n,i in enumerate(Ccum) if i> max95][0]],1)
-        X75 = round(allXs[[n for n,i in enumerate(Ccum) if i> max75][0]],1)
-        X50 = round(allXs[[n for n,i in enumerate(Ccum) if i> max50][0]],1)
-        maxdistances[time]=[X95,X75,X50]
-    return maxdistances #X95,X75,X50
-
-
-def get_time():
-    datetime.now(pytz.timezone('Europe/London')).strftime("%H:%M")
