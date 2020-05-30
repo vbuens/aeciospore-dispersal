@@ -4,7 +4,7 @@ from django_range_slider.fields import RangeSliderField
 from django.forms import CheckboxInput, HiddenInput
 
 class InputForm(forms.Form):
-    source = forms.IntegerField(label='Source strength (Q= #spores/m/s)', min_value=0, required=False)
+    # source = forms.IntegerField(label='Source strength (Q= #spores/m/s)', min_value=0, required=False)
     # leaf = RangeSliderField(minimum=1,maximum=100) # without name or label
     # bush = RangeSliderField(minimum=1,maximum=100) # without name or label
     # bush = RangeSliderField(name="%bush",minimum=1,maximum=100) # without name or label
@@ -38,10 +38,6 @@ class InputForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
         super(InputForm, self).__init__(*args, **kwargs)
-        # self.fields['']
-
-    # def cleaned_data(self):
-    #     return
 
 
 class PredictForm(forms.Form):
