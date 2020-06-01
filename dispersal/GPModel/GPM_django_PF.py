@@ -200,18 +200,20 @@ def runmodel(graph,H,Q,u,I,R,clouds,stabilityclasses):
         max75=max(Ccum)*0.75
         max50=max(Ccum)*0.50
 
-        valuesaty0=[]
-        for i,x in enumerate(allXs):
-            # print(round(allYs[i],2))
-            if str(round(allYs[i],2))=="-0.0":
-                if allCs[i]<1 and x>5:
-                    Xmax=round(x,2)
-                    break
         # minC= min(c for c in valuesaty0 if c>1)
         X99 = round(allXs[[n for n,i in enumerate(Ccum) if i> max99][0]],1)
         X95 = round(allXs[[n for n,i in enumerate(Ccum) if i> max95][0]],1)
         X75 = round(allXs[[n for n,i in enumerate(Ccum) if i> max75][0]],1)
         X50 = round(allXs[[n for n,i in enumerate(Ccum) if i> max50][0]],1)
+
+        valuesaty0=[]
+        Xmax="more than 100"
+        for i,x in enumerate(allXs):
+            if str(round(allYs[i],2))=="-0.0" or str(round(allYs[i],2))=="0.0":
+                if allCs[i]<1 and x>X99:
+                    Xmax=round(x,2)
+                    break
+
         # Xmin = round(allXs[[n for n,i in enumerate(Ccum) if i== minC][0]],1)
         maxdistances[time]=[X95,X75,X50,X99,Xmax]
     return maxdistances #X95,X75,X50
