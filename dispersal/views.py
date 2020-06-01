@@ -72,8 +72,8 @@ def results(request):
 
             maxdistances=runmodel(graph,H,Q, float(wind),I,R,clouds,stabilityclasses)
             context={'source':Q,'country':country,'city':city,
-                    'rain': R,'RH': RH,'clouds':clouds*100,'Irradiance': I,
-                    'wind': wind, 'bushperc': round(bushperc*100,0), 'leafperc': round(leafperc*100),
+                    'rain': R,'RH': RH,'clouds':round(clouds*100,1),'Irradiance': I,
+                    'wind': wind, 'bushperc': round(bushperc*100,0), 'leafperc': leafperc*100,
                     'X99d': maxdistances['Day'][3],'X99n': maxdistances['Night'][3],
                     'XminD': maxdistances['Day'][4],'XminN': maxdistances['Night'][4],
                     'X95d': maxdistances['Day'][0],'X75d': maxdistances['Day'][1],
