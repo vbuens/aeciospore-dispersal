@@ -61,8 +61,9 @@ def results(request):
             bushperc = int(form.cleaned_data['bushperc'])/100
             leafperc = float(form.cleaned_data['leafperc'])/100
             # Calculating the source strength based on percentage of infection
-            # 8 cups/mm * leaf area * %infection in leaf * spores/cup
-            sporesinleaf = 8* 9.93 * leafperc * 7111
+            # 8.29 cups/mm * leaf area * %infection in leaf * spores/cup
+            # sporesinleaf = 8.29* 9.93 * leafperc * 7111.37
+            sporesinleaf = 585409.48 * leafperc
             # Number of leaves in bush * % bush infected
             leafinbush= 900* bushperc
             # spores in lef * leaves in bush * % germination
@@ -86,4 +87,3 @@ def results(request):
             # return render(request,'dispersal/run.html', {'form': form})
     else:
         return redirect('/dispersal/run/')
-        
