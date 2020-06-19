@@ -2,11 +2,14 @@
 {% load static %}
 
 {% block content %}
-<h1> These are the results for Q= {{ source }} spores/m per second at {{ city }}, {{ country }}. </h1>
+<!-- Q= spores/m per second at -->
+<h1> These are the results for  {{ city }}, {{ country }}. </h1>
 <p><strong><u>Input values used:</u></strong></p>
 <ul>
-    <li><b>Country:</b> {{ country }}</li>
-    <li><b>City:</b> {{ city }}</li>
+    <li><b>Rainfall rate (mm/h):</b> {{ rain }}</li>
+    <li><b>Relative Humidity:</b> {{ RH }}</li>
+    <li><b>Solar radiation (W/m2)</b> {{ Irradiance }}</li>
+    <li><b>Percentage cloud cover:</b> {{ clouds }} %</li>
     <li><b>Wind:</b> {{ wind }} (m/s)</li>
     <li><b>Percentage of leaf intected:</b> {{ leafperc }}%</li>
     <li><b>Percentage of bush infected:</b> {{ bushperc }}%</li>
@@ -14,9 +17,10 @@
 <p>Scale represents number of spores at each point down the source</p>
 <p><strong><u>Results:</u></strong></p>
 <ul>
-    <li><b>95%</b> of spores would land before <b>{{ X95d }} meters</b> at day time and <b>{{ X95n }} meter</b> at night time</li>
-    <li><b>75%</b> of spores would land before <b>{{ X75d }} meters</b> at day time and <b>{{ X75n }} meter</b> at night time</li>
-    <li><b>50%</b> of spores would land before <b>{{ X50d }} meters</b> at day time and <b>{{ X50n }} meter</b> at night time</li>
+    <li><b><font color="red">High risk - </font>50%</b> of spores would land before <font color="red"><b>{{ X50d }} meters</b></font> at day time and <b>{{ X50n }} meter</b> at night time</li>
+  <li><b><font color="orange">Medium risk - </font>75%</b> of spores would land before <font color="orange"><b>{{ X75d }} meters</b></font> at day time and <b>{{ X75n }} meter</b> at night time</li>
+    <li><b><font color="green">Lower risk - </font>99%</b> of spores would land before <font color="green"><b>{{ X99d }} meters</b></font> at day time and <b>{{ X99n }} meter</b> at night time</li>
+    <li><b><font color="green">Low risk - </font>The maximum distance</b> at which spores are likely to land during the day is <font color="green"><b>{{ XminD }} meters</b></font> and <b>{{ XminN }} meter</b> at night time</li>
 </ul>
 <!-- <img src="{% static 'images/results.png' %}" alt="Results"> -->
 

@@ -1,8 +1,9 @@
 {% extends "dispersal/base.html" %}
+
+{% block content %}
 {% load crispy_forms_tags %}
 {% load static %}
 
-{% block content %}
     <script>
         function myFunction(){
             var x = document.getElementById("weather");
@@ -13,9 +14,9 @@
             }
         }
     </script>
-    <link rel="stylesheet" href="css/rSlider.min.css">
-    <script src="js/rSlider.min.js"></script>
-    <script>
+    <!-- <link rel="stylesheet" href="css/rSlider.min.css"> -->
+    <!-- <script src="js/rSlider.min.js"></script> -->
+    <!-- <script>
         var mySlider = new rSlider({
             target: '#slider',
             values:[1,10,20,30,40,50,60,70,80,90,100],
@@ -27,17 +28,18 @@
             tooltip:    true,
             step:    null,
         })
-    </script>
+    </script> -->
 
 
     <div>
     	<h2> This is the page to run the model</h2>
-    	<h4> Please, input the following values and click submit </h4>
+    	Please, input the following values and click submit
     </div>
 	{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
-    <form action="results" method=post">
+    <form action="results" method="post">
 	{% csrf_token %}
+    <!-- role="form"  -->
     <!-- <div class="form-group">
         <table>
             {{ form|crispy }}
@@ -53,54 +55,56 @@
     <p>If you would prefer to include your own weather data, go to the <a href=#inputweather > section below</a></p>
             <!-- <button onclick="myFunction()">Here</button> -->
 
-    <div class="form-row">
-        <div class="form-group col-md-6 mb-0">
-            {{ form.country | as_crispy_field }}
+    <div class="form-row form-group">
+        <div class="form-group col-md-2 mb-0">
+            {{ form.lat | as_crispy_field }}
         </div>
-        <div class="form-group col-md-6 mb-0">
-            {{ form.city | as_crispy_field }}
+        <div class="form-group col-md-3 mb-0">
+            {{ form.NS | as_crispy_field }}
+        </div>
+    <!-- </div>
+    <div class="form-row"> -->
+        <div class="form-group col-md-2 mb-0">
+            {{ form.lon | as_crispy_field }}
+        </div>
+        <div class="form-group col-md-3 mb-0">
+            {{ form.WE | as_crispy_field }}
         </div>
     </div>
 
     <h3>* Input the infection level of the source</h3>
     <div class="form-row">
-        <div class="slidecontainer col-md-3 mb-0">
-            <strong>Percentage of Leaf Infected</strong>
-            <!-- <input type="range" min="1" max="100" value="1" class="slider"
-            id="myRange-leaf" name="leafperc"> -->
-            <input type="range" min="1" max="100" value="1" class="slider"
-            id="myRange-leaf" name="leafperc">
-            <p>Value: <span id="demo-leaf"></span>%</p>
-        </div>
-        <div class="form-group col-md-3 mb-0">
-            <img src="{% static 'images/leaf1.png' %}" alt="leaf" id="img-leaf" class="img-leaf">
+        <strong>Percentage of Leaf Infected</strong>
+    </div>
+    <div class="form-row">
+        <div class="col-md-3 mb-0">
             <script>
-                var slider = document.getElementById("myRange-leaf");
-                var output = document.getElementById("demo-leaf");
-                output.innerHTML = slider.value;
-
-                slider.oninput = function() {
-                    output.innerHTML = this.value;
+                function leafimg(){
+                    leafpercentage = document.getElementById("myRange-leaf").value;
                     var img = document.getElementById("img-leaf");
-                    if (this.value < 10) {
-                        img.setAttribute("src","{% static 'images/leaf1.png' %}") ;
-                    } else if(this.value < 25) {
-                        img.setAttribute("src","{% static 'images/leaf10.png' %}") ;
-                    } else if(this.value < 50) {
-                        img.setAttribute("src","{% static 'images/leaf25.png' %}") ;
-                    } else if(this.value < 75) {
-                        img.setAttribute("src","{% static 'images/leaf50.png' %}") ;
-                    } else if(this.value < 90) {
-                        img.setAttribute("src","{% static 'images/leaf75.png' %}") ;
+                    // alert(d);
+                    if (leafpercentage == "0.54") {
+                        img.setAttribute("src","{% static 'images/LeafLow.png' %}") ;
+                    } else if(leafpercentage == "1.82") {
+                        img.setAttribute("src","{% static 'images/LeafMedium.png' %}") ;
+                    } else if(leafpercentage == "5.26") {
+                        img.setAttribute("src","{% static 'images/LeafHigh.png' %}") ;
                     } else {
-                        img.setAttribute("src","{% static 'images/leaf100.png' %}") ;
+                        img.setAttribute("src","{% static 'images/LeafVeryhigh.png' %}") ;
                     }
                 }
             </script>
-        </div>
-    <!-- </div> -->
 
-    <!-- <div class="form-row"> -->
+            <select name="leafperc" class="form-control" id="myRange-leaf" onchange="leafimg()" multiple>
+            {% for val, name in form.fields.leafperc.choices %}
+                <option name="leafperc" value="{{val}}">{{name}}</option>
+            {% endfor %}
+            </select>
+        </div>
+        <div class="form-group col-md-3 mb-0">
+            <img src="{% static 'images/LeafLow.png' %}" alt="leaf" id="img-leaf" class="img-leaf">
+        </div>
+
         <div class="slidecontainer col-md-3 mb-0">
             <strong>Percentage of Bush Infected</strong>
             <input type="range" min="1" max="100" value="1" class="slider-bush"
@@ -151,58 +155,60 @@
         </div>
     </div>
 
-    <div class="form-row">
-        <div class="form-group col-md-6 mb-0">
-            <h3>* Input weather data yourself<a name="inputweather"> here.</a></h3>
-            <p>This information could be found in any weather website. See <a href="https://www.worldweatheronline.com/"> worldweatheronline</a></p>
-            <!-- Rounded switch -->
-            <label class="switch">
-              <input type="checkbox" onchange="myFunction()" name="weathercheck">
-              <span class="slider-round round"></span>
-            </label>
+        <div class="form-row">
+            <div class="form-group col-md-6 mb-0">
+                <h3>* Input weather data yourself<a name="inputweather"> here.</a></h3>
+                <p>This information could be found in any weather website. See <a href="https://www.worldweatheronline.com/"> worldweatheronline</a></p>
+                <!-- Rounded switch-->
+                <label class="switch">
+                  <input type="checkbox" onchange="myFunction()" name="weathercheck">
+                  <span class="slider-round round"></span>
+                </label>
+            </div>
+
+        </div>
+        <div class="form-row" id="weather" style="display:none;">
+            <div class="slidecontainer col-md-5 mb-0">
+                <strong>Percentage of Cloud Cover</strong>
+                <!-- <input type="range" min="1" max="100" value="1" class="slider"
+                id="myRange-leaf" name="leafperc"> -->
+                <input type="range" min="0" max="100" value="0" class="slider cloud"
+                id="myRange-cloud" name="cloudperc" step="5">
+                <p>Value: <span id="demo-cloud"></span>%</p>
+            </div>
+            <script>
+                var slidercloud = document.getElementById("myRange-cloud");
+                var outputcloud = document.getElementById("demo-cloud");
+                outputcloud.innerHTML = slidercloud.value;
+
+                slidercloud.oninput = function() {
+                    outputcloud.innerHTML = this.value;
+                }
+            </script>
+            <div class="form-group col-md-1 mb-0">
+            </div>
+            <div class="form-group col-md-3 mb-0">
+                {{ form.wind | as_crispy_field }}
+            </div>
+            <div class="form-group col-md-3 mb-0">
+                {{ form.UV | as_crispy_field }}
+            </div>
+
+
+        </div>
+        <p style="color:white;">  .</p>
+
+        <div class="form-row">
+            <div class="form-group col-md-5 mb-0">
+                <h4>Please submit the form to run the model and see the results.   </h4>
+            </div>
+            <div class="form-group col-md-2 mb-0">
+                <button type="submit" class="btn btn-primary" value="OK">Submit</button>
+            </div>
+
         </div>
 
-    </div>
-    <div class="form-row" id="weather" style="display:none;">
-        <div class="slidecontainer col-md-5 mb-0">
-            <strong>Percentage of Cloud Cover</strong>
-            <!-- <input type="range" min="1" max="100" value="1" class="slider"
-            id="myRange-leaf" name="leafperc"> -->
-            <input type="range" min="0" max="100" value="0" class="slider cloud"
-            id="myRange-cloud" name="cloudperc" step="5">
-            <p>Value: <span id="demo-cloud"></span>%</p>
-        </div>
-        <script>
-            var slidercloud = document.getElementById("myRange-cloud");
-            var outputcloud = document.getElementById("demo-cloud");
-            outputcloud.innerHTML = slidercloud.value;
 
-            slidercloud.oninput = function() {
-                outputcloud.innerHTML = this.value;
-            }
-        </script>
-        <div class="form-group col-md-1 mb-0">
-        </div>
-        <div class="form-group col-md-3 mb-0">
-            {{ form.wind | as_crispy_field }}
-        </div>
-        <div class="form-group col-md-3 mb-0">
-            {{ form.UV | as_crispy_field }}
-        </div>
-
-
-    </div>
-    <p style="color:white;">  .</p>
-
-    <div class="form-row">
-        <div class="form-group col-md-5 mb-0">
-            <h4>Please submit the form to run the model and see the results.   </h4>
-        </div>
-        <div class="form-group col-md-2 mb-0">
-            <button type="submit" class="btn btn-primary" value="OK">Submit</button>
-        </div>
-
-    </div>
 </form>
 <div class="form-row">
 </div>
