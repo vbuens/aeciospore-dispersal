@@ -1,0 +1,45 @@
+{% extends "dispersal/base.html" %}
+{% load static %}
+
+{% block content %}
+
+<!-- <h1 style="padding:20px 20px 20px 40px;"> Welcome to the index page. </h1> -->
+<h1> Database </h1>
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+<div class="form-row">
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th> City, Country</th>
+                <th> Location (Lat,Lon)</th>
+                <th> % Leaf Infected </th>
+                <th> % Bush Infected </th>
+                <th> Wind (m/s) </th>
+                <th> Max Distance travelled (m)  </th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entry in database %}
+            <tr>
+                <td> {{ entry.city }} , {{ entry.country }}</td>
+                <td> {{ entry.location }} </td>
+                <td> {{ entry.leafperc }} </td>
+                <td> {{ entry.bushperc }} </td>
+                <td> {{ entry.wind }} </td>
+                <td> {{ entry.maxdis }} </td>
+            </tr>
+
+        {% endfor %}
+        </tbody>
+
+    </table>
+</div>
+<div class="form-row">
+
+</div>
+<h4> Please, go to the following page to run the model </h4>
+<a href="{% url 'run' %}">Go to model</a>
+
+{% endblock %}
