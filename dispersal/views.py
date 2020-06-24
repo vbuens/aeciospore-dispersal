@@ -3,12 +3,16 @@ from django.http import HttpResponse
 from .forms import InputForm, PredictForm
 from .GPModel.GPM_django_PF import runmodel, stabilityclass_latlon, stabilityclass_input
 from .GPModel.releaseprediction import RH_APIcall
+from .models import EntryRequest
 
 def index(request):
     return render(request, 'dispersal/index.html')
-
 def about(request):
     return render(request, 'dispersal/about.html')
+def entries(request):
+    context ={'database' : EntryRequest.objects.all()}
+    return render(request, 'dispersal/database.html', context )
+
 def run(request):
     template_name = 'dispersal/run.html'
     form = InputForm()
@@ -44,6 +48,7 @@ def results(request):
             NS = form.cleaned_data['NS']
             lon = form.cleaned_data['lon']
             WE = form.cleaned_data['WE']
+            location=str(NS+lat)+' , '+str(WE+lon)
             lat=float(NS+lat)
             lon=float(WE+lon)
 
@@ -71,6 +76,12 @@ def results(request):
             # Q = round(623909.0877*0.6*bushperc*leafperc,2)
 
             maxdistances=runmodel(graph,H,Q, float(wind),I,R,clouds,stabilityclasses)
+
+            entry = EntryRequest(country=country, city=city,bushperc=bushperc*100,leafperc=leafperc*100,
+                    height=H,Q=Q,stability_class=stabilityclasses,rain=R,RH=RH,irradiance=UV,
+                    wind=wind, location=location,maxdis=max([maxdistances['Day'][4],maxdistances['Night'][4]]))
+            entry.save()
+
             context={'source':Q,'country':country,'city':city,
                     'rain': R,'RH': RH,'clouds':round(clouds*100,1),'Irradiance': I,
                     'wind': wind, 'bushperc': round(bushperc*100,0), 'leafperc': leafperc*100,

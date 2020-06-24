@@ -125,7 +125,7 @@ def graph_3D(allXs,allYs,allZs,allCs, stability_class,u,time):
 
 
 def calculateCs(stability_class,x,y,z,H,Q0,u,I,R):
-    Vs=0.0113 # m/s 11.3 mm/s    # Vd=1.27 # Vs=1.23
+    Vs=0.0113 # m/s 11.3 mm/s    # Vd=1.27 # Vs=1.23 # urediniospores = 11.5 mm/s
     z=0
     stabilities={   #a  b   10P     q
         'A': [0.28,0.9,0.527,0.865],
@@ -135,10 +135,11 @@ def calculateCs(stability_class,x,y,z,H,Q0,u,I,R):
         'E': [0.15,0.73,0.098,0.902],
         'F': [0.12,0.67,0.065,0.902],
       }
-    h=0.7
-    z0=0.029
+    # h=0.7
+    hd=0.2
+    z0=0.13*hd #0.029
     kz0= (10*z0)**(0.53*(x**-0.22))
-    d=0.78*h
+    d=0.56*hd
     a = stabilities[stability_class][0]
     b = stabilities[stability_class][1]
     p = stabilities[stability_class][2]
@@ -147,7 +148,8 @@ def calculateCs(stability_class,x,y,z,H,Q0,u,I,R):
     sigz=kz0*a*(x**b)
     sig2y=sigy**2
     sig2z=sigz**2
-    secondpart=math.exp(-(((H-z)**2)/(2*sig2z))) #+math.exp(-(((H+z-2*d)**2)/(2*sig2z)))
+    # secondpart=math.exp(-(((H-z)**2)/(2*sig2z))) #+math.exp(-(((H+z-2*d)**2)/(2*sig2z)))
+    secondpart=math.exp(-(((H-z)**2)/(2*sig2z)))+math.exp(-(((H+z-2*d)**2)/(2*sig2z)))
 
     Fs=math.exp(-((I)*x)/5555*u) #5555*u) #18.01
     Yw=0.000272*(R**0.7873)
