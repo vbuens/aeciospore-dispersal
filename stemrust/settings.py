@@ -14,7 +14,7 @@ import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
+# BASE_DIR ="/Users/buenov/Documents/Vanessa/Proyectos/StemRust/stemrust"
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
@@ -122,7 +122,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATIC_ROOT = "/Users/buenov/Documents/Vanessa/Proyectos/StemRust/stemrust/static/"
+STATIC_ROOT = os.path.join(BASE_DIR,'static/')
 
 # Others
 CRISPY_TEMPLATE_PACK ='boostrap4'
