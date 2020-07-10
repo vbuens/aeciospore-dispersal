@@ -3,15 +3,20 @@ body {
 }
 .page-header {
     overflow: hidden;
-    background-color: #C25100;
+    /* background-color: #C25100; */
+    background-color: black;
     margin-top: 0;
     padding: 20px 20px 20px 40px;
 }
+#content{
+    padding: 10px 20px 20px 40px;
+}
 .page-header h1 {
     float: left;
-    color: #ffffff;
+    color: #eb9d0c; #ffffff;
     font-size: 50px;
-    font-family: 'Lobster', cursive;
+    font-family: 'Lobster';
+    /* font-family: 'Lobster', cursive; */
     text-decoration: none;
 }
 .header-right{
@@ -29,8 +34,8 @@ body {
 }
 /* .header-right a.active {
     background-color: white;
-    color: #C25100; */
-}
+    color: #C25100;
+} */
 .header-right a:hover {
   background-color: #ffffff;
   color: #C25100;
@@ -53,10 +58,8 @@ h3, h4 {
     height: 100px;
     /* margin-top: -20px; */
 }
-/* #weather{
-  display: none;
-} */
 
+/* Slider for weather data input */
 
 /* The switch - the box around the slider */
 .switch {
@@ -65,15 +68,12 @@ h3, h4 {
   width: 60px;
   height: 34px;
 }
-
 /* Hide default HTML checkbox */
 .switch input {
   opacity: 0;
   width: 0;
   height: 0;
 }
-
-/* The slider */
 .slider-round {
   position: absolute;
   cursor: pointer;
@@ -86,7 +86,6 @@ h3, h4 {
   transition: .4s;
   border-radius: 34px;
 }
-
 .slider-round:before {
   position: absolute;
   content: "";
@@ -99,15 +98,12 @@ h3, h4 {
   transition: .4s;
   border-radius: 50%;
 }
-
 input:checked + .slider-round {
   background-color: #2196F3;
 }
-
 input:focus + .slider-round {
   box-shadow: 0 0 1px #2196F3;
 }
-
 input:checked + .slider-round:before {
   -webkit-transform: translateX(26px);
   -ms-transform: translateX(26px);
@@ -115,8 +111,7 @@ input:checked + .slider-round:before {
 }
 
 /* Slider  for % Infection */
-
-.slider{
+/* .slider{
     -webkit-appearence: none;
     width: 60%;
     height: 15px;
@@ -126,9 +121,8 @@ input:checked + .slider-round:before {
     opacity: 0.7;
     -webkit-transition: .2s;
     transition: opacity .2s;
-}
-
-.slider::-webkit-slider-thumb {
+} */
+/* .slider::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
   width: 25px;
@@ -137,19 +131,32 @@ input:checked + .slider-round:before {
   background: #4CAF50;
   cursor: pointer;
 }
-
 .slider::-moz-range-thumb {
   width: 25px;
   height: 25px;
   border-radius: 50%;
   background: #4CAF50;
   cursor: pointer;
-}
+} */
 
 .img-leaf{
     width: 20%;
 }
 
 .img-bush{
-    width: 25%;
+    width: 30%;
+}
+
+.img-barberry{
+    width: 40%;
+}
+
+td.red{
+    background-color: red;
+}
+td.orange{
+    background-color: orange;
+}
+td.green{
+    background-color: green;
 }
