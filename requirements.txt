@@ -3,7 +3,7 @@ beautifulsoup4==4.6.3
 certifi==2019.11.28
 chardet==3.0.4
 cycler==0.10.0
-Django==3.0.2
+Django==3.0.8
 django-countries==5.5
 django-crispy-forms==1.8.1
 django-range-slider==0.2.4
