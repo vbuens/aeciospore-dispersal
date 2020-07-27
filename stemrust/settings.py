@@ -14,17 +14,20 @@ import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
+# BASE_DIR ="/Users/buenov/Documents/Vanessa/Proyectos/StemRust/stemrust"
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'c^2z9fqe#8&^aqer^9qiw4qpyxw7=vpooedtuz@j6=lbl0oq^('
+with open('/etc/secret_key.txt') as f:
+    SECRET_KEY = f.read().strip()
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False #True
 
+# To respond to 'example.com' and any subdomains, start the domain with a dot
+# ALLOWED_HOSTS = ['.example.com', '203.0.113.5']
 ALLOWED_HOSTS = []
 
 
@@ -78,8 +81,15 @@ WSGI_APPLICATION = 'stemrust.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'stemrust',
+        'USER': 'buenov',
+        'PASSWORD': 'dispersal-vanessa',
+        'HOST': 'localhost',
+        'PORT': '',
+
+       # 'ENGINE': 'django.db.backends.sqlite3',
+       # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
 
@@ -122,7 +132,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATIC_ROOT = "/Users/buenov/Documents/Vanessa/Proyectos/StemRust/stemrust/static/"
+STATIC_ROOT = os.path.join(BASE_DIR,'static/')
 
 # Others
 CRISPY_TEMPLATE_PACK ='boostrap4'

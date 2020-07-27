@@ -61,10 +61,12 @@ def stabilityclass_latlon(lat,lon):
     import json
     import requests
         # Gather weather parameters      time='day'
-    apikey='a6a267d35d8c445bbc4f74dca9543661'
-    url='https://api.weatherbit.io/v2.0/current?lat={}&lon={}&key={}'.format(lat,lon,apikey)
-    json_response = requests.get(url).json()
-
+    try:
+        apikey='a6a267d35d8c445bbc4f74dca9543661'
+        url='https://api.weatherbit.io/v2.0/current?lat={}&lon={}&key={}'.format(lat,lon,apikey)
+        json_response = requests.get(url).json()
+    except:
+        raise Exception('API call was not possible')
     RH=json_response['data'][0]['rh']
     Irradiance=json_response['data'][0]['solar_rad']
     rain=json_response['data'][0]['precip']
@@ -93,9 +95,10 @@ def stabilityclass_input(u,cloud,UV):
 
 def graph_2D(allXs,allYs,allCs,stabilityclass,u,time):
     # plt.scatter(allXs,allZs,c=allCs,cmap='nipy_spectral_r') #gist_rainbow') #'gist_ncar') #gist_stern')#'tab20b') YlOrBr')#nipy_spectral_r')#
+    matplotlib.use('agg')
     plt.scatter(allYs,allXs,c=allCs,cmap='nipy_spectral_r') #gist_rainbow') #'gist_ncar') #gist_stern')#'tab20b') YlOrBr')#nipy_spectral_r')#
     plt.colorbar()
-    plt.clim(0,5000)
+    plt.clim(0,10000)
     # plt.colorbar(p)
     plt.xlabel('Distance (m)')
     plt.ylabel('Height (m)')
@@ -159,7 +162,7 @@ def calculateCs(stability_class,x,y,z,H,Q0,u,I,R):
     Yd2=Y2a*Y2b/a
     Yd=Yd1*Yd2
 
-    Fd=math.exp((-(Yw+Yd)*x)/u)
+    Fd=math.exp((-(Yw+abs(Yd))*x)/u)
     Q=Q0*Fd*Fs
     if Q>Q0:
         print(Q,Yd1,Yd2,Fd,Fs)

@@ -1,5 +1,4 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
 from .forms import InputForm, PredictForm
 from .GPModel.GPM_django_PF import runmodel, stabilityclass_latlon, stabilityclass_input
 from .GPModel.releaseprediction import RH_APIcall
@@ -60,7 +59,11 @@ def results(request):
                 stabilityclasses=stabilityclass_input(wind,cloudiness,UV)
 
             else:
-                stabilityclasses,wind,RH,I,R,clouds,UV,city, country =stabilityclass_latlon(lat,lon)
+                try:
+                    stabilityclasses,wind,RH,I,R,clouds,UV,city, country =stabilityclass_latlon(lat,lon)
+                except Exception:
+                    message='It seems like there has been an error regarding the API that gathers weather data.\nYou can try again later or run the model inputting yourself the weather data.'
+                    return render(request,'dispersal/error.html',{'exception':message})
 
             H = float(form.cleaned_data['height'])
             bushperc = int(form.cleaned_data['bushperc'])/100
@@ -75,7 +78,12 @@ def results(request):
             Q= round(sporesinleaf*leafinbush*0.6*0.5,2)
             # Q = round(623909.0877*0.6*bushperc*leafperc,2)
 
-            maxdistances=runmodel(graph,H,Q, float(wind),I,R,clouds,stabilityclasses)
+
+            try:
+                maxdistances=runmodel(graph,H,Q, float(wind),I,R,clouds,stabilityclasses)
+            except Exception as e:
+                message="There has been an error with running the model. Maintance might be needed."
+                return render(request,'dispersal/error.html',{'exception':message})
 
             entry = EntryRequest(country=country, city=city,bushperc=bushperc*100,leafperc=leafperc*100,
                     height=H,Q=Q,stability_class=stabilityclasses,rain=R,RH=RH,irradiance=UV,
