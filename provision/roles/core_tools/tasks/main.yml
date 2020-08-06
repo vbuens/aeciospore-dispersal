@@ -12,3 +12,7 @@
 - name: install git
   yum:
     name: git
+
+- name: install the 'Development tools' package group needed to install psycopg2
+  yum:
+    name: "@Development tools"

@@ -1,0 +1,16 @@
+---
+
+- name: install postgresql
+  yum:
+    name: ['postgresql-server', 'postgresql-contrib']
+
+- name: create the postgres data directory
+  command: 'postgresql-setup initdb'
+  ignore_errors: yes
+  
+
+- name: start and enable the postgresql server
+  systemd:
+    name: postgresql
+    enabled: yes
+    state: started

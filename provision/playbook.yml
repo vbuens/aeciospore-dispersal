@@ -10,4 +10,5 @@
 
     - epel
     - core_tools
+    - postgresql
     - sr-dispersal
