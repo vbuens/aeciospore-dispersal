@@ -9,3 +9,5 @@
   roles:
 
     - epel
+    - core_tools
+    - sr-dispersal
