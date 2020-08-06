@@ -1,0 +1,11 @@
+---
+
+- name: provision sr-dispersal-webapp
+  hosts: all
+
+  vars_files:
+    - vars.yml
+
+  roles:
+
+    - epel
