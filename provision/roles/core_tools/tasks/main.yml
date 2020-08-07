@@ -1,8 +1,16 @@
 ---
 
+- name: install python-psycopg2 (python2) for Ansible postgres commands
+  yum:
+    name: python-psycopg2
+
 - name: install python3
   yum:
     name: python3
+
+- name: install python3-devel needed to install psycopg2
+  yum:
+    name: python3-devel
 
 - name: install virtualenv
   pip:
