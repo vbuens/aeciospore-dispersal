@@ -16,6 +16,7 @@
   git:
     repo: "https://github.com/vbuens/sr-dispersal.git"
     dest: /home/webapp/sr-dispersal
+    update: no
 
 - name: install gunicorn
   become: yes
