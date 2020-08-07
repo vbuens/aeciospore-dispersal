@@ -1,0 +1,12 @@
+[Unit]
+Description=gunicorn service
+After=network.service
+
+[Service]
+User=webapp
+Group=nginx
+WorkingDirectory=/home/webapp/sr-dispersal
+ExecStart=/home/webapp/venv/bin/gunicorn --access-logfile - --workers 3 --bind unix:/home/webapp/sr-dispersal/sr-dispersal.sock stemrust.wsgi:application
+
+[Install]
+WantedBy=multi-user.target

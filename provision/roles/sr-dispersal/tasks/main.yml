@@ -10,6 +10,11 @@
     name: webapp
     group: webapp
 
+- name: give group members execute permissions on /home/webapp directory to give nginx access
+  file:
+    path: /home/webapp
+    mode: '0711'
+
 - name: clone the sr-dispersal repository
   become: yes
   become_user: webapp
@@ -26,7 +31,6 @@
     virtualenv: /home/webapp/venv
     virtualenv_command: /usr/local/bin/virtualenv
     
-
 - name: install sr-dispersal requirements
   become: yes
   become_user: webapp
@@ -34,3 +38,8 @@
     requirements: /home/webapp/sr-dispersal/requirements.txt
     virtualenv: /home/webapp/venv
     virtualenv_command: /usr/local/bin/virtualenv
+
+- name: copy over the gunicorn systemd service definition file
+  copy:
+    src: gunicorn.service
+    dest: /etc/systemd/system/gunicorn.service
