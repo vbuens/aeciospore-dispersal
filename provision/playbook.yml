@@ -12,3 +12,4 @@
     - core_tools
     - postgresql
     - sr-dispersal
+    - nginx
