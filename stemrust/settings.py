@@ -12,19 +12,19 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os
 
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-# BASE_DIR ="/Users/buenov/Documents/Vanessa/Proyectos/StemRust/stemrust"
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-with open('/etc/secret_key.txt') as f:
-    SECRET_KEY = f.read().strip()
+
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False #True
+DEBUG = True
 
 # To respond to 'example.com' and any subdomains, start the domain with a dot
 # ALLOWED_HOSTS = ['.example.com', '203.0.113.5']
