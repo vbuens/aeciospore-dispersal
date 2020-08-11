@@ -1,0 +1,41 @@
+---
+
+- name: install postgresql
+  yum:
+    name: ['postgresql-server', 'postgresql-contrib']
+
+- name: create the postgres data directory
+  command: 'postgresql-setup initdb'
+  ignore_errors: yes
+
+- name: install postgresql-devel to enable install of psycopg2 from source in Python3
+  yum:
+    name: postgresql-devel
+  
+
+- name: start and enable the postgresql server
+  systemd:
+    name: postgresql
+    enabled: yes
+    state: started
+
+- name: create the webapp postgresql database
+  become: yes
+  become_user: postgres
+  postgresql_db:
+    name: stemrust
+
+- name: create the webapp postgresql user
+  become: yes
+  become_user: postgres
+  postgresql_user:
+    db: "{{ DB_NAME }}"
+    name: "{{ DB_USERNAME }}"
+    password: "{{ DB_PASSWORD }}"
+    priv: ALL
+
+- name: copy over pg_hba.conf file
+  template:
+    src: pg_hba.conf
+    dest: /var/lib/pgsql/data/pg_hba.conf
+  notify: restart postgresql
