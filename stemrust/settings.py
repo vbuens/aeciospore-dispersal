@@ -29,7 +29,10 @@ DEBUG = True
 # To respond to 'example.com' and any subdomains, start the domain with a dot
 # ALLOWED_HOSTS = ['.example.com', '203.0.113.5']
 #ALLOWED_HOSTS = ['*']
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS').split()
+allowed_hosts_string = os.environ.get('ALLOWED_HOSTS')
+ALLOWED_HOSTS = None
+if allowed_hosts_string is not None:
+    ALLOWED_HOSTS = allowed_hosts_string.split()
 
 
 # Application definition
