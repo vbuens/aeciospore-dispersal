@@ -86,9 +86,9 @@ WSGI_APPLICATION = 'stemrust.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'stemrust',
-        'USER': 'buenov',
-        'PASSWORD': 'dispersal-vanessa',
+        'NAME': os.environ.get("DB_NAME"),
+        'USER': os.environ.get("DB_USERNAME"),
+        'PASSWORD': os.environ.get("DB_PASSWORD"),
         'HOST': 'localhost',
         'PORT': '',
 
