@@ -43,3 +43,10 @@
   template:
     src: gunicorn.service
     dest: /etc/systemd/system/gunicorn.service
+
+- name: copy over the gunicorn systemd service definition file
+  become: yes
+  become_user: webapp
+  template:
+    src: activate.sh
+    dest: /home/webapp/activate.sh
