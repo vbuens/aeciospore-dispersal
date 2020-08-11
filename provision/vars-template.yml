@@ -2,5 +2,5 @@ SR_DISPERSAL_GIT_REPO: "https://github.com/vbuens/sr-dispersal.git"
 DB_NAME: stemrust
 DB_USERNAME: changeme
 DB_PASSWORD: changeme
-SERVERNAME: changeme
+ALLOWED_HOSTS: "example.com 127.0.0.1"
 SECRET_KEY: changeme
