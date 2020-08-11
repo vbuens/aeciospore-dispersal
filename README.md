@@ -18,18 +18,21 @@
 
 ```pip install -r sr-dispersal/requirements.txt```
 
-5. Configure the database
-
-```
-python manage.py makemigrations
-python manage.py migrate
-```
-
-6. Set environment variables, e.g.
+5. Set environment variables, e.g.
 
 ```
 export SECRET_KEY=secret
 export ALLOWED_HOSTS=".example.com 203.0.113.5"
+export DB_NAME=stemrust
+export DB_USERNAME=changeme
+export DB_PASSWORD=changeme
+```
+
+6. Configure the database
+
+```
+python manage.py makemigrations
+python manage.py migrate
 ```
 
 
