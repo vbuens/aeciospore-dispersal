@@ -18,11 +18,26 @@
 
 ```pip install -r sr-dispersal/requirements.txt```
 
-5.	Run server
+5. Configure the database
+
+```
+python manage.py makemigrations
+python manage.py migrate
+```
+
+6. Set environment variables, e.g.
+
+```
+export SECRET_KEY=secret
+export ALLOWED_HOSTS=".example.com 203.0.113.5"
+```
+
+
+7.	Run server
 
 ```python manage.py runserver```
 
-6.	Open website locally
+8.	Open website locally
 
 Open a browser and go to: http://127.0.0.1:8000/dispersal/
 
