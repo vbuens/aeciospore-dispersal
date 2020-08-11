@@ -33,3 +33,9 @@
     name: "{{ DB_USERNAME }}"
     password: "{{ DB_PASSWORD }}"
     priv: ALL
+
+- name: copy over pg_hba.conf file
+  template:
+    src: pg_hba.conf
+    dest: /var/lib/pgsql/data/pg_hba.conf
+  notify: restart postgresql
