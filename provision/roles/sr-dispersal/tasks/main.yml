@@ -40,6 +40,6 @@
     virtualenv_command: /usr/local/bin/virtualenv
 
 - name: copy over the gunicorn systemd service definition file
-  copy:
+  template:
     src: gunicorn.service
     dest: /etc/systemd/system/gunicorn.service

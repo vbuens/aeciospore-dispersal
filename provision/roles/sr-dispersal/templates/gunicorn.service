@@ -3,6 +3,7 @@ Description=gunicorn service
 After=network.service
 
 [Service]
+Environment=SECRET_KEY={{ SECRET_KEY }}
 User=webapp
 Group=nginx
 WorkingDirectory=/home/webapp/sr-dispersal
