@@ -5,6 +5,9 @@ After=network.service
 [Service]
 Environment=SECRET_KEY={{ SECRET_KEY }}
 Environment="ALLOWED_HOSTS={{ ALLOWED_HOSTS }}"
+Environment=DB_NAME={{ DB_NAME }}
+Environment=DB_USERNAME={{ DB_USERNAME }}
+Environment=DB_PASSWORD={{ DB_PASSWORD }}
 User=webapp
 Group=nginx
 WorkingDirectory=/home/webapp/sr-dispersal
