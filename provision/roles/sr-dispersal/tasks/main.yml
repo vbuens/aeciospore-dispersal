@@ -19,7 +19,7 @@
   become: yes
   become_user: webapp
   git:
-    repo: "https://github.com/vbuens/sr-dispersal.git"
+    repo: "{{ SR_DISPERSAL_GIT_REPO }}"
     dest: /home/webapp/sr-dispersal
     update: no
 
