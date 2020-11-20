@@ -9,8 +9,6 @@ import matplotlib
 import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D, axes3d
-# from .atmospheric_functions import stabilityclass
-
 
 
 def stabilityclass_day(u,cloud,UV):
@@ -38,22 +36,6 @@ def stabilityclass_night(u,cloud):
     elif cloud<=0.35:
         if u<=3: return 'E'
         if u>3: return 'D'
-
-def stabilityclass_inputday(u,cloud,UV):
-    if cloud>0.5:  return 'D'
-    if UV == "Low":
-        if u<2: return 'B'
-        if 2<=u<=5: return 'C'
-        if 5<u: return 'D'
-    elif UV == "Medium":
-        if u<2: return 'A'
-        if 2<=u<5:  return 'B'
-        if 5<=u<=6: return 'C'
-        if 6<u: return 'D'
-    elif UV == "High":
-        if u<3: return 'A'
-        if 3<=u<=5: return 'B'
-        if 5<u: return 'C'
 
 def stabilityclass_latlon(lat,lon):
     ''' Calls an API to get weather data from location
@@ -85,28 +67,23 @@ def stabilityclass_latlon(lat,lon):
 def stabilityclass_input(u,cloud,UV):
     u=float(u) ; cloud=float(cloud)
     stabilityclasses={}
-    stabilityclasses['Day']= stabilityclass_inputday(u,cloud,UV)
+    stabilityclasses['Day']= stabilityclass_day(u,cloud,UV)
     stabilityclasses['Night']= stabilityclass_night(u,cloud)
     return stabilityclasses
 
 
 ## Functions for printing the graph
 
-
 def graph_2D(allXs,allYs,allCs,stabilityclass,u,time):
-    # plt.scatter(allXs,allZs,c=allCs,cmap='nipy_spectral_r') #gist_rainbow') #'gist_ncar') #gist_stern')#'tab20b') YlOrBr')#nipy_spectral_r')#
     matplotlib.use('agg')
-    plt.scatter(allYs,allXs,c=allCs,cmap='nipy_spectral_r') #gist_rainbow') #'gist_ncar') #gist_stern')#'tab20b') YlOrBr')#nipy_spectral_r')#
+    plt.scatter(allYs,allXs,c=allCs,cmap='nipy_spectral_r')
     plt.colorbar()
-    plt.clim(0,10000)
-    # plt.colorbar(p)
+    plt.clim(0,1000)
     plt.xlabel('Distance (m)')
     plt.ylabel('Height (m)')
     plt.title('Stability class %s. Wind speed: %s m/s' % (stabilityclass,u))
     plt.savefig('dispersal/static/images/results2D_{}.png'.format(time))
     plt.clf()
-    # plt.savefig('../static/images/results2D.png')
-    # plt.savefig('2D_%s_%s'% (city,time))
 
 def graph_3D(allXs,allYs,allZs,allCs, stability_class,u,time):
     fig = plt.figure()
@@ -114,21 +91,16 @@ def graph_3D(allXs,allYs,allZs,allCs, stability_class,u,time):
     p = ax.scatter(allXs, allYs, allZs, zdir='z', s=20, c=allCs, cmap='nipy_spectral_r', depthshade=True)
     ax.legend()
     fig.colorbar(p)
-#    plt.colorbar()
     plt.ylabel('Cross-wind  (m)')
     plt.xlabel('Distance (m)')
-#    plt.zlabel('z = Height (m)')
     plt.yticks([0,1,2])
     plt.title('Stability Class: %s. Wind: %s m/s' %(stability_class,u))
-#    fig.colorbar(allCs) #, shrink=0.5, aspect=5)
-    #plt.zlabel('z')
     plt.savefig('3D_%s_%s'% (city,time))
-    # plt.show()
 
 
 
-def calculateCs(stability_class,x,y,z,H,Q0,u,I,R):
-    Vs=0.0113 # m/s 11.3 mm/s    # Vd=1.27 # Vs=1.23 # urediniospores = 11.5 mm/s
+def calculateCs(stability_class,x,y,z,H,Q0,u,I,R, time):
+    Vs=0.0113 # m/s 11.3 mm/s    # Vd=1.27 # Vs=1.13 # urediniospores = 11.5 mm/s
     z=0
     stabilities={   #a  b   10P     q
         'A': [0.28,0.9,0.527,0.865],
@@ -151,10 +123,11 @@ def calculateCs(stability_class,x,y,z,H,Q0,u,I,R):
     sigz=kz0*a*(x**b)
     sig2y=sigy**2
     sig2z=sigz**2
-    # secondpart=math.exp(-(((H-z)**2)/(2*sig2z))) #+math.exp(-(((H+z-2*d)**2)/(2*sig2z)))
     secondpart=math.exp(-(((H-z)**2)/(2*sig2z)))+math.exp(-(((H+z-2*d)**2)/(2*sig2z)))
 
-    Fs=math.exp(-((I)*x)/5555*u) #5555*u) #18.01
+    if time=='Day':    Fs=math.exp(-(I*x)/5555*u) #5555*u) #18.01
+    if time=='Night':   Fs=1
+
     Yw=0.000272*(R**0.7873)
     Yd1=math.sqrt(2/math.pi)*(Vs/x)
     Y2a=((10*z0)**(0.53*(x**(-0.22))))*(x**(0.22-b+1))
@@ -164,8 +137,6 @@ def calculateCs(stability_class,x,y,z,H,Q0,u,I,R):
 
     Fd=math.exp((-(Yw+abs(Yd))*x)/u)
     Q=Q0*Fd*Fs
-    if Q>Q0:
-        print(Q,Yd1,Yd2,Fd,Fs)
 
     C=(Q/u)*(math.exp((-y**2)/(2*sig2y))/(2*math.pi*sigz*sigy))*secondpart
     return C
@@ -183,29 +154,22 @@ def runmodel(graph,H,Q,u,I,R,clouds,stabilityclasses):
         allXs=[]
         allYs=[]
         for x in Xlist:
-            # print(x)
             for y in Ylist:
-                # stability_classes= stabilityclass_input(u,clouds,I)
                 stabilityclass=stabilityclasses[time]
-                C=calculateCs(stabilityclass,x,y,z,H,Q,u,I,R)
-    #            R=C*Vd
-    #            allRs.append(R)
+                C=calculateCs(stabilityclass,x,y,z,H,Q,u,I,R,time)
                 allCs.append(C)
                 allYs.append(y)
                 allXs.append(x)
 
 
         graph_2D(allXs,allYs,allCs,stabilityclass,u,time)
-        # filename='{}/Cs_{}{}_u{}.csv'.format(output,key,time,u)
-        # # writetofile(allXs,allYs,allCs,filename)
-        # graphy_2D(allXs,allYs,allCs,stability_class,u,time,key,output)
+
         Ccum = np.cumsum(allCs)
         max99=max(Ccum)*0.999
         max95=max(Ccum)*0.95
         max75=max(Ccum)*0.75
         max50=max(Ccum)*0.50
 
-        # minC= min(c for c in valuesaty0 if c>1)
         X99 = round(allXs[[n for n,i in enumerate(Ccum) if i> max99][0]],1)
         X95 = round(allXs[[n for n,i in enumerate(Ccum) if i> max95][0]],1)
         X75 = round(allXs[[n for n,i in enumerate(Ccum) if i> max75][0]],1)
@@ -219,6 +183,5 @@ def runmodel(graph,H,Q,u,I,R,clouds,stabilityclasses):
                     Xmax=round(x,2)
                     break
 
-        # Xmin = round(allXs[[n for n,i in enumerate(Ccum) if i== minC][0]],1)
         maxdistances[time]=[X95,X75,X50,X99,Xmax]
-    return maxdistances #X95,X75,X50
+    return maxdistances

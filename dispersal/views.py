@@ -36,7 +36,6 @@ def predictions(request):
             return render(request, 'dispersal/prediction_results.html', {'context':prediction,'city':city,'country':country})
     else:
         return redirect('/dispersal/predictions')
-        # return render(request, 'dispersal/prediction.html')
 
 def results(request):
     if request.method == 'POST':
@@ -52,11 +51,11 @@ def results(request):
             lon=float(WE+lon)
 
             if request.GET.get('weathercheck') == "on":
-                UV = form.cleaned_data['UV']
+                print('INPUT DATA!!!!!!!!!')
+                I = form.cleaned_data['UV']
                 wind = form.cleaned_data['wind']
                 cloudiness =  int(form.cleaned_data['cloudperc'])/100
-                #cloudiness =  int(request.GET.get('cloudperc'))/100
-                stabilityclasses=stabilityclass_input(wind,cloudiness,UV)
+                stabilityclasses=stabilityclass_input(wind,cloudiness,I)
 
             else:
                 try:
@@ -69,15 +68,12 @@ def results(request):
             bushperc = int(form.cleaned_data['bushperc'])/100
             leafperc = float(form.cleaned_data['leafperc'])/100
             # Calculating the source strength based on percentage of infection
-            # 8.29 cups/mm * leaf area * %infection in leaf * spores/cup
-            # sporesinleaf = 8.29* 9.93 * leafperc * 7111.37
-            sporesinleaf = 585409.48 * leafperc
-            # Number of leaves in bush * % bush infected
+            # sporesinleaf = 8.29* 993 mm2 * 7111.37 = 58540948.1 spores in leaf
+            # Q(spores/s) =58540948.1 * 0.0296 (% released)/3600 (s) = 481.34
+            sporesinleaf = 481.34 * leafperc
+            # Number of leaves in bush (approx 1m2)* % bush infected
             leafinbush= 900* bushperc
-            # spores in lef * leaves in bush * % germination
-            Q= round(sporesinleaf*leafinbush*0.6*0.5,2)
-            # Q = round(623909.0877*0.6*bushperc*leafperc,2)
-
+            Q= round(sporesinleaf*leafinbush,2)
 
             try:
                 maxdistances=runmodel(graph,H,Q, float(wind),I,R,clouds,stabilityclasses)
@@ -103,6 +99,6 @@ def results(request):
             print('form no valid')
             form = InputForm()
             return redirect('/dispersal/run/')
-            # return render(request,'dispersal/run.html', {'form': form})
+
     else:
         return redirect('/dispersal/run/')

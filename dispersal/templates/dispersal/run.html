@@ -14,22 +14,6 @@
             }
         }
     </script>
-    <!-- <link rel="stylesheet" href="css/rSlider.min.css"> -->
-    <!-- <script src="js/rSlider.min.js"></script> -->
-    <!-- <script>
-        var mySlider = new rSlider({
-            target: '#slider',
-            values:[1,10,20,30,40,50,60,70,80,90,100],
-            range:  true
-            set:    null,
-            width:  null,
-            scale:  true,
-            labels: true,
-            tooltip:    true,
-            step:    null,
-        })
-    </script> -->
-
 
     <div>
     	<h2> This is the page to run the model</h2>
@@ -39,12 +23,7 @@
 
     <form action="results" method="post">
 	{% csrf_token %}
-    <!-- role="form"  -->
-    <!-- <div class="form-group">
-        <table>
-            {{ form|crispy }}
-        </table>
-    </div> -->
+
     {{ form.non_field_errors }}
     {% for hidden_field in form.hidden_fields %}
         {{ hidden_field.errors}}
@@ -53,7 +32,6 @@
     <h3>* Input location</h3>
     <p>This will collect weather data at the current time from your location.</p>
     <p>If you would prefer to include your own weather data, go to the <a href=#inputweather > section below</a></p>
-            <!-- <button onclick="myFunction()">Here</button> -->
 
     <div class="form-row form-group">
         <div class="form-group col-md-2 mb-0">
@@ -62,8 +40,6 @@
         <div class="form-group col-md-3 mb-0">
             {{ form.NS | as_crispy_field }}
         </div>
-    <!-- </div>
-    <div class="form-row"> -->
         <div class="form-group col-md-2 mb-0">
             {{ form.lon | as_crispy_field }}
         </div>
@@ -113,7 +89,6 @@
         </div>
         <div class="form-group col-md-3 mb-0">
             <img src="{% static 'images/bush1.png' %}" alt="bush" id="img-bush" class="img-bush">
-            <!-- <img src="{{STATIC_URL}}images/leaf1.png" alt="leaf" id="img"> -->
             <script>
                 var sliderbush = document.getElementById("bush");
                 var outputbush = document.getElementById("bushvalue");
@@ -167,11 +142,10 @@
             </div>
 
         </div>
+        <!-- Input wether data manually -->
         <div class="form-row" id="weather" style="display:none;">
-            <div class="slidecontainer col-md-5 mb-0">
+            <div class="slidecontainer col-md-3 mb-0">
                 <strong>Percentage of Cloud Cover</strong>
-                <!-- <input type="range" min="1" max="100" value="1" class="slider"
-                id="myRange-leaf" name="leafperc"> -->
                 <input type="range" min="0" max="100" value="0" class="slider cloud"
                 id="myRange-cloud" name="cloudperc" step="5">
                 <p>Value: <span id="demo-cloud"></span>%</p>
@@ -190,10 +164,12 @@
             <div class="form-group col-md-3 mb-0">
                 {{ form.wind | as_crispy_field }}
             </div>
-            <div class="form-group col-md-3 mb-0">
+            <div class="form-group col-md-2 mb-0">
                 {{ form.UV | as_crispy_field }}
             </div>
-
+            <div class="form-group col-md-3 mb-0">
+                {{ form.rain | as_crispy_field }}
+            </div>
 
         </div>
         <p style="color:white;">  .</p>
