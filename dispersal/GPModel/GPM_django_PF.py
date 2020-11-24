@@ -3,6 +3,7 @@ from __future__ import division
 import os
 import math
 import json
+import base64
 import requests
 import argparse
 import matplotlib
@@ -84,6 +85,9 @@ def graph_2D(allXs,allYs,allCs,stabilityclass,u,time):
     plt.title('Stability class %s. Wind speed: %s m/s' % (stabilityclass,u))
     plt.savefig('dispersal/static/images/results2D_{}.png'.format(time))
     plt.clf()
+    with open(f'dispersal/static/images/results2D_{time}.png', "rb") as img:
+        str_img = base64.b64encode(img.read())
+        return str_img
 
 def graph_3D(allXs,allYs,allZs,allCs, stability_class,u,time):
     fig = plt.figure()
@@ -162,7 +166,7 @@ def runmodel(graph,H,Q,u,I,R,clouds,stabilityclasses):
                 allXs.append(x)
 
 
-        graph_2D(allXs,allYs,allCs,stabilityclass,u,time)
+        str_img=graph_2D(allXs,allYs,allCs,stabilityclass,u,time)
 
         Ccum = np.cumsum(allCs)
         max99=max(Ccum)*0.999
@@ -183,5 +187,5 @@ def runmodel(graph,H,Q,u,I,R,clouds,stabilityclasses):
                     Xmax=round(x,2)
                     break
 
-        maxdistances[time]=[X95,X75,X50,X99,Xmax]
+        maxdistances[time]=[X95,X75,X50,X99,Xmax,str_img]
     return maxdistances

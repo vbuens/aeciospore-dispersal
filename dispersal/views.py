@@ -93,7 +93,8 @@ def results(request):
                     'XminD': maxdistances['Day'][4],'XminN': maxdistances['Night'][4],
                     'X95d': maxdistances['Day'][0],'X75d': maxdistances['Day'][1],
                     'X50d': maxdistances['Day'][2],'X95n': maxdistances['Night'][0],
-                    'X75n': maxdistances['Night'][1],'X50n': maxdistances['Night'][2]}
+                    'X75n': maxdistances['Night'][1],'X50n': maxdistances['Night'][2],
+                    'imgday': maxdistances['Day'][5].decode('utf-8'),'imgnight':maxdistances['Night'][5].decode('utf-8')}
             return render(request, 'dispersal/results.html', context)
         else:
             print('form no valid')
