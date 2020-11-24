@@ -87,7 +87,8 @@ def graph_2D(allXs,allYs,allCs,stabilityclass,u,time):
     plt.clf()
     with open(f'dispersal/static/images/results2D_{time}.png', "rb") as img:
         str_img = base64.b64encode(img.read())
-        return str_img
+    os.remove(f'dispersal/static/images/results2D_{time}.png')
+    return str_img
 
 def graph_3D(allXs,allYs,allZs,allCs, stability_class,u,time):
     fig = plt.figure()
