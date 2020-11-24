@@ -26,10 +26,13 @@
 
 <div class="form-row">
     <div class="form-group col-md-6 mb-0">
-        <img src="{% static 'images/results2D_Day.png' %}" alt="Results">
+        <!-- <img src="{% static 'images/results2D_Day.png' %}" alt="Results"> -->
+        <img src="data:image/png;base64, {{imgday}}" alt="ResultsDay"/>
     </div>
     <div class="form-group col-md-6 mb-0">
-        <img src="{% static 'images/results2D_Night.png' %}" alt="Results">
+        <!-- <img src="{% static 'images/results2D_Night.png' %}" alt="ResultsNight"> -->
+        <img src="data:image/png;base64, {{imgnight}}" alt="ResultsNight"/>
+
     </div>
 </div>
 
