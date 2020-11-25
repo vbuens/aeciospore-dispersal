@@ -1,0 +1,24 @@
+---
+
+- name: install Nginx
+  yum:
+    name: nginx
+    state: present
+
+- name: add the webapp group to the nginx user
+  user:
+    name: nginx
+    group: webapp
+
+- name: start nginx and enable at boot
+  systemd:
+    name: nginx
+    enabled: yes
+    state: started
+
+
+- name: copy over nginx.conf
+  template:
+    src: nginx.conf
+    dest: /etc/nginx/nginx.conf
+  notify: restart nginx
