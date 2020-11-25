@@ -1,4 +1,5 @@
 SR_DISPERSAL_GIT_REPO: "https://github.com/vbuens/sr-dispersal.git"
+SR_DISPERSAL_VERSION: "0.1.0"
 DB_NAME: stemrust
 DB_USERNAME: changeme
 DB_PASSWORD: changeme
