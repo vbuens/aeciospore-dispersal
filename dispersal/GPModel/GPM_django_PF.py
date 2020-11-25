@@ -4,6 +4,7 @@ import os
 import math
 import json
 import base64
+import tempfile
 import requests
 import argparse
 import matplotlib
@@ -78,17 +79,19 @@ def stabilityclass_input(u,cloud,UV):
 def graph_2D(allXs,allYs,allCs,stabilityclass,u,time):
     matplotlib.use('agg')
     plt.scatter(allYs,allXs,c=allCs,cmap='nipy_spectral_r')
-    plt.colorbar()
-    plt.clim(0,1000)
-    plt.xlabel('Distance (m)')
-    plt.ylabel('Height (m)')
+    cbar = plt.colorbar()
+    cbar.set_label('Number of aeciospores deposited')
+    plt.clim(0,5000)
+    plt.xlabel('Horizontal plane (m)')
+    plt.ylabel('Downsource distance (m)')
     plt.title('Stability class %s. Wind speed: %s m/s' % (stabilityclass,u))
-    plt.savefig('dispersal/static/images/results2D_{}.png'.format(time))
-    plt.clf()
-    with open(f'dispersal/static/images/results2D_{time}.png', "rb") as img:
-        str_img = base64.b64encode(img.read())
-    os.remove(f'dispersal/static/images/results2D_{time}.png')
-    return str_img
+
+    with tempfile.TemporaryFile(suffix=".png") as tmpfile:
+        plt.savefig(tmpfile,format="png")
+        plt.clf()
+        tmpfile.seek(0)
+        return base64.b64encode(tmpfile.read())
+
 
 def graph_3D(allXs,allYs,allZs,allCs, stability_class,u,time):
     fig = plt.figure()
