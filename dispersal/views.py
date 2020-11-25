@@ -49,20 +49,22 @@ def results(request):
             location=str(NS+lat)+' , '+str(WE+lon)
             lat=float(NS+lat)
             lon=float(WE+lon)
+            # print(request.POST)
+            # print('/////////////')
+            # print(request.POST.get('weathercheck'))
+            try:
+                stabilityclasses,wind,RH,I,R,clouds,UV,city, country =stabilityclass_latlon(lat,lon)
+            except Exception as e:
+                message='It seems like there has been an error regarding the API that gathers weather data.\nYou can try again later or run the model inputting yourself the weather data.'
+                return render(request,'dispersal/error.html',{'exception':message})
 
-            if request.GET.get('weathercheck') == "on":
-                print('INPUT DATA!!!!!!!!!')
-                I = form.cleaned_data['UV']
-                wind = form.cleaned_data['wind']
-                cloudiness =  int(form.cleaned_data['cloudperc'])/100
-                stabilityclasses=stabilityclass_input(wind,cloudiness,I)
-
-            else:
-                try:
-                    stabilityclasses,wind,RH,I,R,clouds,UV,city, country =stabilityclass_latlon(lat,lon)
-                except Exception:
-                    message='It seems like there has been an error regarding the API that gathers weather data.\nYou can try again later or run the model inputting yourself the weather data.'
-                    return render(request,'dispersal/error.html',{'exception':message})
+            if request.POST.get('weathercheck') == "on":
+                # print('INPUT DATA!!!!!!!!!')
+                I = int(form.cleaned_data['UV'])
+                wind = float(form.cleaned_data['wind'])
+                clouds =  int(form.cleaned_data['cloudiness'])/100
+                R = float(form.cleaned_data['rain'])
+                stabilityclasses=stabilityclass_input(wind,clouds,I)
 
             H = float(form.cleaned_data['height'])
             bushperc = int(form.cleaned_data['bushperc'])/100
@@ -75,15 +77,19 @@ def results(request):
             leafinbush= 900* bushperc
             Q= round(sporesinleaf*leafinbush,2)
 
-            try:
-                maxdistances=runmodel(graph,H,Q, float(wind),I,R,clouds,stabilityclasses)
-            except Exception as e:
-                message="There has been an error with running the model. Maintance might be needed."
-                return render(request,'dispersal/error.html',{'exception':message})
+            # try:
+            maxdistances=runmodel(graph,H,Q, float(wind),I,R,clouds,stabilityclasses)
+            # except Exception as e:
+            #     print(e)
+            #     message="There has been an error with running the model. Maintance might be needed."
+            #     return render(request,'dispersal/error.html',{'exception':message})
 
+            print(country,city,bushperc,leafperc,H,Q,stabilityclasses,R,RH,UV,wind,location,maxdistances['Day'][4])
+            print(location)
             entry = EntryRequest(country=country, city=city,bushperc=bushperc*100,leafperc=leafperc*100,
                     height=H,Q=Q,stability_class=stabilityclasses,rain=R,RH=RH,irradiance=UV,
-                    wind=wind, location=location,maxdis=max([maxdistances['Day'][4],maxdistances['Night'][4]]))
+                    wind=wind,location=str(location),
+                    maxdis=max([str(maxdistances['Day'][4]),str(maxdistances['Night'][4])]))
             entry.save()
 
             context={'source':Q,'country':country,'city':city,

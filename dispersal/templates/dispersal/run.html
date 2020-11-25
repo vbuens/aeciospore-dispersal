@@ -21,7 +21,7 @@
     </div>
 	{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
-    <form action="results" method="post">
+    <form action="results" method="post" id="ModelForm">
 	{% csrf_token %}
 
     {{ form.non_field_errors }}
@@ -147,12 +147,12 @@
             <div class="slidecontainer col-md-3 mb-0">
                 <strong>Percentage of Cloud Cover</strong>
                 <input type="range" min="0" max="100" value="0" class="slider cloud"
-                id="myRange-cloud" name="cloudperc" step="5">
-                <p>Value: <span id="demo-cloud"></span>%</p>
+                id="myRange-cloud" name="cloudiness" step="5">
+                <p>Value: <span id="cloudiness"></span>%</p>
             </div>
             <script>
                 var slidercloud = document.getElementById("myRange-cloud");
-                var outputcloud = document.getElementById("demo-cloud");
+                var outputcloud = document.getElementById("cloudiness");
                 outputcloud.innerHTML = slidercloud.value;
 
                 slidercloud.oninput = function() {
@@ -179,13 +179,12 @@
                 <h4>Please submit the form to run the model and see the results.   </h4>
             </div>
             <div class="form-group col-md-2 mb-0">
-                <button type="submit" class="btn btn-primary" value="OK">Submit</button>
+                <button type="submit" class="btn btn-primary" value="OK" onclick="AlertWindow()">Submit</button>
             </div>
-
         </div>
-
-
 </form>
+
+
 <div class="form-row">
 </div>
 <div class="form-row">
