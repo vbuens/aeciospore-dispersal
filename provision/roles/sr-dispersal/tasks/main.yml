@@ -21,7 +21,9 @@
   git:
     repo: "{{ SR_DISPERSAL_GIT_REPO }}"
     dest: /home/webapp/sr-dispersal
-    update: no
+    version: "{{ SR_DISPERSAL_VERSION }}"
+    update: yes
+    force: yes
 
 - name: install gunicorn
   become: yes
