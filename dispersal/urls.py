@@ -8,6 +8,7 @@ urlpatterns = [
     path('release/predictions', views.predictions, name='predictions'),
     path('run/results', views.results,name='results'),
     path('about/', views.about,name='about'),
+    path('contact/', views.contact,name='contact'),
     path('entries/', views.entries,name='entries'),
 
 #    path('run/results/q=<int:source>/', views.results, name='results'),

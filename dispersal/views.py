@@ -8,6 +8,8 @@ def index(request):
     return render(request, 'dispersal/index.html')
 def about(request):
     return render(request, 'dispersal/about.html')
+def contact(request):
+    return render(request, 'dispersal/contact.html')
 def entries(request):
     context ={'database' : EntryRequest.objects.all()}
     return render(request, 'dispersal/database.html', context )
