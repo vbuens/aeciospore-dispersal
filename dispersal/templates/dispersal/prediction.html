@@ -21,8 +21,8 @@
 
 
     <div>
-    	<h2> This is the page to predict the release of aeciospores</h2>
-    	<h4> Please, input the following values and click submit </h4>
+    	<h2> Predict the release of aeciospores</h2>
+    	<h4> Input the following values and click submit </h4>
     </div>
 	{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
@@ -40,10 +40,8 @@
         {{ hidden_field.errors}}
         {{ hidden_field }}
     {% endfor %}
-    <h3>* Input location</h3>
+    <h3>Location <i>Berberis</i> bush </h3>
     <p>This will collect weather data at the current time from your location.</p>
-    <!-- <p>If you would prefer to include your own weather data, go to the <a href=#inputweather > section below</a></p> -->
-            <!-- <button onclick="myFunction()">Here</button> -->
 
     <h4>Latitude</h4>
     <div class="form-row">
@@ -67,13 +65,15 @@
 
     <div class="form-row">
         <div class="form-group col-md-5 mb-0">
-            <h4>Please submit the form to run the model and see the results.   </h4>
+            <h4>Press submit to see predictions based on weather.   </h4>
         </div>
         <div class="form-group col-md-2 mb-0">
             <button type="submit" class="btn btn-primary" value="submit">Submit</button>
         </div>
     </div>
 </form>
+<p>Please note: Risk of aeciospore release is purely based on relative humidity and precipitation,
+    and thus it is just orientative.</p>
 
 
 <!-- <body ng-controller="MainController">

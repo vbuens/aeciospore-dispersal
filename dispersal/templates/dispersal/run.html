@@ -16,7 +16,7 @@
     </script>
 
     <div>
-    	<h2> This is the page to run the model</h2>
+    	<h2> Executing the aeciospore dispersal model</h2>
     	Please, input the following values and click submit
     </div>
 	{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
@@ -29,10 +29,9 @@
         {{ hidden_field.errors}}
         {{ hidden_field }}
     {% endfor %}
-    <h3>* Input location</h3>
+    <h3>Essential parameters </h3>
+    <h4>1. Location of <i>Berberis</i> bush</h4>
     <p>This will collect weather data at the current time from your location.</p>
-    <p>If you would prefer to include your own weather data, go to the <a href=#inputweather > section below</a></p>
-
     <div class="form-row form-group">
         <div class="form-group col-md-2 mb-0">
             {{ form.lat | as_crispy_field }}
@@ -48,7 +47,7 @@
         </div>
     </div>
 
-    <h3>* Input the infection level of the source</h3>
+    <h4>2. Overall infection level of the <i>Berberis</i> bush</h4>
     <div class="form-row">
         <strong>Percentage of Leaf Infected</strong>
     </div>
@@ -130,9 +129,10 @@
         </div>
     </div>
 
+    <h3>Optional </h3>
         <div class="form-row">
             <div class="form-group col-md-6 mb-0">
-                <h3>* Input weather data yourself<a name="inputweather"> here.</a></h3>
+                <h4>3. Input weather data manually<a name="inputweather"> here.</a></h4>
                 <p>This information could be found in any weather website. See <a href="https://www.worldweatheronline.com/"> worldweatheronline</a></p>
                 <!-- Rounded switch-->
                 <label class="switch">
@@ -142,6 +142,7 @@
             </div>
 
         </div>
+
         <!-- Input wether data manually -->
         <div class="form-row" id="weather" style="display:none;">
             <div class="slidecontainer col-md-3 mb-0">
@@ -175,15 +176,15 @@
         <p style="color:white;">  .</p>
 
         <div class="form-row">
-            <div class="form-group col-md-5 mb-0">
-                <h4>Please submit the form to run the model and see the results.   </h4>
+            <div class="form-group col-md-8 mb-0">
+                <h4>Press submit to run the model - it may take several minutes for results to appear.   </h4>
             </div>
-            <div class="form-group col-md-2 mb-0">
+            <div class="form-group col-md-4 mb-0">
                 <button type="submit" class="btn btn-primary" value="OK" onclick="AlertWindow()">Submit</button>
             </div>
         </div>
 </form>
-
+<p>Please note: data submitted is saved for research purposes. </p>
 
 <div class="form-row">
 </div>
