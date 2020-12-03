@@ -28,7 +28,11 @@ DEBUG = True
 
 # To respond to 'example.com' and any subdomains, start the domain with a dot
 # ALLOWED_HOSTS = ['.example.com', '203.0.113.5']
-ALLOWED_HOSTS = ['*']
+#ALLOWED_HOSTS = ['*']
+allowed_hosts_string = os.environ.get('ALLOWED_HOSTS')
+ALLOWED_HOSTS = None
+if allowed_hosts_string is not None:
+    ALLOWED_HOSTS = allowed_hosts_string.split()
 
 
 # Application definition
@@ -82,9 +86,9 @@ WSGI_APPLICATION = 'stemrust.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'stemrust',
-        'USER': 'buenov',
-        'PASSWORD': 'dispersal-vanessa',
+        'NAME': os.environ.get("DB_NAME"),
+        'USER': os.environ.get("DB_USERNAME"),
+        'PASSWORD': os.environ.get("DB_PASSWORD"),
         'HOST': 'localhost',
         'PORT': '',
 

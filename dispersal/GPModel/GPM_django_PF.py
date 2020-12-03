@@ -85,6 +85,7 @@ def graph_2D(allXs,allYs,allCs,stabilityclass,u,time):
     plt.xlabel('Horizontal plane (m)')
     plt.ylabel('Downsource distance (m)')
     plt.title('Stability class %s. Wind speed: %s m/s' % (stabilityclass,u))
+
     with tempfile.TemporaryFile(suffix=".png") as tmpfile:
         plt.savefig(tmpfile,format="png")
         plt.clf()
