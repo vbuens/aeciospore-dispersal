@@ -83,7 +83,7 @@ def graph_2D(allXs,allYs,allCs,stabilityclass,u,time):
     cbar.set_label('Number of aeciospores deposited')
     plt.clim(0,5000)
     plt.xlabel('Horizontal plane (m)')
-    plt.ylabel('Downsource distance (m)')
+    plt.ylabel('Downwind of source distance (m)')
     plt.title('Stability class %s. Wind speed: %s m/s' % (stabilityclass,u))
 
     with tempfile.TemporaryFile(suffix=".png") as tmpfile:
