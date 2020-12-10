@@ -14,13 +14,13 @@
     <li><b>Percentage of leaf intected:</b> {{ leafperc }}%</li>
     <li><b>Percentage of bush infected:</b> {{ bushperc }}%</li>
 </ul>
-<p>Scale represents number of spores at each point down the source</p>
+<p>Scale represents number of spores at each point downwind of the infected <i>Berberis</i> bush (i.e. the source)</p>
 <p><strong><u>Results:</u></strong></p>
 <ul>
-    <li><b><font color="red">High risk - </font>50%</b> of spores would land before <font color="red"><b>{{ X50d }} meters</b></font> at day time and <b>{{ X50n }} meter</b> at night time</li>
-  <li><b><font color="orange">Medium risk - </font>75%</b> of spores would land before <font color="orange"><b>{{ X75d }} meters</b></font> at day time and <b>{{ X75n }} meter</b> at night time</li>
-    <li><b><font color="green">Lower risk - </font>99%</b> of spores would land before <font color="green"><b>{{ X99d }} meters</b></font> at day time and <b>{{ X99n }} meter</b> at night time</li>
-    <li><b><font color="green">Low risk - </font>The maximum distance</b> at which spores are likely to land during the day is <font color="green"><b>{{ XminD }} meters</b></font> and <b>{{ XminN }} meter</b> at night time</li>
+    <li><b><font color="red">High risk - </font>50%</b> of spores would land before <font color="red"><b>{{ X50d }} meters</b></font> in the day time and <b>{{ X50n }} meters</b> at night time</li>
+  <li><b><font color="orange">Medium risk - </font>75%</b> of spores would land before <font color="orange"><b>{{ X75d }} meters</b></font> in the day time and <b>{{ X75n }} meters</b> at night time</li>
+    <li><b><font color="green">Lower risk - </font>99%</b> of spores would land before <font color="green"><b>{{ X99d }} meters</b></font> in the day time and <b>{{ X99n }} meters</b> at night time</li>
+    <li><b><font color="green">Low risk - </font>The maximum distance</b> at which spores are likely to land during the day is <font color="green"><b>{{ XminD }} meters</b></font> and <b>{{ XminN }} meters</b> at night time</li>
 </ul>
 <!-- <img src="{% static 'images/results.png' %}" alt="Results"> -->
 
