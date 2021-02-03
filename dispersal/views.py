@@ -95,10 +95,10 @@ def results(request):
                     height=H,Q=Q,stability_class=stabilityclasses,rain=R,RH=RH,irradiance=UV,
                     wind=wind,location=str(location),
                     maxdis=max([str(maxdistances['Day'][4]),str(maxdistances['Night'][4])]))
-            # try:
-            entry.save()
-            # except Exception as e:
-            #     message = "Entry could not be recorded"
+            try:
+                entry.save()
+            except Exception as e:
+                message = "Entry could not be recorded"
 
             context={'source':Q,'country':country,'city':city,
                     'rain': R,'RH': RH,'clouds':round(clouds*100,1),'Irradiance': I,
